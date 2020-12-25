@@ -33,9 +33,10 @@
 					<?php 
 					$sess = $this->session->all_userdata();
 					if(isset($sess['logged_in'])) {
-						if($sess['logged_in'] == true && $sess['is_agen'] == true) { ?>
-							<li style="cursor: pointer;"><a data-toggle="collapse" data-target=".navbar-collapse.show" class="link-menu" onclick="location.href = '<?=base_url('home/logout');?>';"><i class="fa fa-user"></i> Log Out</a></li>
-						<?php } ?>
+						if (isset($sess['is_agen'])) { 
+							if($sess['logged_in'] == true && $sess['is_agen'] == true) { ?>
+								<li style="cursor: pointer;"><a data-toggle="collapse" data-target=".navbar-collapse.show" class="link-menu" onclick="location.href = '<?=base_url('home/logout');?>';"><i class="fa fa-user"></i> Log Out</a></li>
+						<?php }} ?>
 					<?php } ?>
 					
 					<!-- <li><a data-toggle="collapse" data-target=".navbar-collapse.show" class="link-menu" href="#services"><i class="fa fa-cog"></i> services</a></li>
