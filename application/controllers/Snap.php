@@ -16,7 +16,6 @@ class Snap extends CI_Controller {
 
     public function index()
     {
-		
 		$harga = $this->m_global->single_row('*',['deleted_at' => null], 't_harga', NULL);
 		
 		$tahun = date('Y');
@@ -111,12 +110,12 @@ class Snap extends CI_Controller {
 		);
 
 		// Optional
-// 		$item2_details = array(
-// 		  'id' => 'a2',
-// 		  'price' => 4000,
-// 		  'quantity' => 1,
-// 		  'name' => "Biaya Admin"
-// 		);
+		// 		$item2_details = array(
+		// 		  'id' => 'a2',
+		// 		  'price' => 4000,
+		// 		  'quantity' => 1,
+		// 		  'name' => "Biaya Admin"
+		// 		);
 
 		// Optional
 		$item_details = array ($item1_details);
@@ -585,6 +584,7 @@ class Snap extends CI_Controller {
 		
 		$order_id = $this->generate_order_id_manual();
 		$kode_agen = $this->m_user->get_kode_agen();
+		$kode_ref = $this->cek_kode_affiliate();
 		
 		$data_trans = [
 			'id' => $id,
@@ -601,6 +601,12 @@ class Snap extends CI_Controller {
 			'is_manual' => 1,
 			'kode_agen' => $kode_agen,
 		];
+
+		## sisipkan kode affiliate jika membeli melalui link referal
+		if($kode_ref !== false) {
+			$data_trans['kode_ref'] = $kode_ref;
+			$data_trans['laba_agen_total'] = (float)$harga->laba_agen;
+		}
 
 		$insert = $this->t_checkout->save($data_trans);
 
@@ -804,6 +810,17 @@ class Snap extends CI_Controller {
 		}
 	
 		return $token;
+	}
+
+	public function cek_kode_affiliate()
+	{
+		$sess = $this->session->all_userdata();
+		if(isset($sess['kode_affiliate'])) {
+			return $sess['kode_affiliate'];
+		}else{
+			return false;
+		}
+		
 	}
 	
 	

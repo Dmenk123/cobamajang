@@ -126,31 +126,31 @@ class M_user extends CI_Model
 
 	/////////////////////////////////////////////// komisi //////////////////////////////////////////////////////
 
-	private function _get_data_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	private function _get_data_komisi_query($kode_ref) //term is value of $_REQUEST['search']
 	{
 		$this->db->select('*');
 
 		$this->db->from('t_checkout');
-		$this->db->where('t_checkout.kode_agen', $id_agen);
+		$this->db->where('t_checkout.kode_ref', $kode_ref);
 		$this->db->where('t_checkout.status_confirm', 'diterima'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_confirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
 		$this->db->where('t_checkout.is_agen_klaim', '0'); //belum di klaim
 		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
 	}
 
-	function get_data_komisi($id_agen)
+	function get_data_komisi($kode_ref)
 	{
-		$this->_get_data_komisi_query($id_agen);
+		$this->_get_data_komisi_query($kode_ref);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	private function _get_data_pre_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	private function _get_data_pre_komisi_query($kode_ref) //term is value of $_REQUEST['search']
 	{
 		$this->db->select('*');
 
 		$this->db->from('t_checkout');
-		$this->db->where('t_checkout.kode_agen', $id_agen);
+		$this->db->where('t_checkout.kode_ref', $kode_ref);
 		$this->db->where('t_checkout.status_confirm', 'diterima'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_confirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
 		$this->db->where('t_checkout.is_agen_klaim', '1');
@@ -158,19 +158,19 @@ class M_user extends CI_Model
 		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
 	}
 
-	function get_data_pre_komisi($id_agen)
+	function get_data_pre_komisi($kode_ref)
 	{
-		$this->_get_data_pre_komisi_query($id_agen);
+		$this->_get_data_pre_komisi_query($kode_ref);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	private function _get_data_after_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	private function _get_data_after_komisi_query($kode_ref) //term is value of $_REQUEST['search']
 	{
 		$this->db->select('t_checkout.*, t_klaim_verify.bukti as bukti_bayar, t_klaim_verify.tanggal_verify');
 		$this->db->from('t_checkout');
 		$this->db->join('t_klaim_verify', 't_checkout.id_klaim_agen = t_klaim_verify.id_klaim_agen and t_klaim_verify.is_aktif = 1', 'left');
-		$this->db->where('t_checkout.kode_agen', $id_agen);
+		$this->db->where('t_checkout.kode_ref', $kode_ref);
 		$this->db->where('t_checkout.status_confirm', 'diterima'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_confirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
 		$this->db->where('t_checkout.is_agen_klaim', '1');
@@ -178,9 +178,9 @@ class M_user extends CI_Model
 		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
 	}
 
-	function get_data_after_komisi($id_agen)
+	function get_data_after_komisi($kode_ref)
 	{
-		$this->_get_data_after_komisi_query($id_agen);
+		$this->_get_data_after_komisi_query($kode_ref);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -223,11 +223,11 @@ class M_user extends CI_Model
 		return $query->result();
 	}
 
-	public function get_komisi_belum_tarik($id_agen)
+	public function get_komisi_belum_tarik($kode_ref)
 	{
 		$this->db->select('(sum(laba_agen_total)) as total_laba');
 		$this->db->from('t_checkout');
-		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('kode_ref', $kode_ref);
 		$this->db->where('is_confirm', '1');
 		$this->db->where('status_confirm', 'diterima');
 		$this->db->where('is_agen_klaim', '0');
@@ -235,11 +235,11 @@ class M_user extends CI_Model
 		return $q->row();
 	}
 
-	public function get_komisi_pending_tarik($id_agen)
+	public function get_komisi_pending_tarik($kode_ref)
 	{
 		$this->db->select('(sum(laba_agen_total)) as total_laba');
 		$this->db->from('t_checkout');
-		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('kode_ref', $kode_ref);
 		$this->db->where('is_confirm', '1');
 		$this->db->where('status_confirm', 'diterima');
 		$this->db->where('is_agen_klaim', '1');
@@ -248,11 +248,11 @@ class M_user extends CI_Model
 		return $q->row();
 	}
 
-	public function get_komisi_sudah_tarik($id_agen)
+	public function get_komisi_sudah_tarik($kode_ref)
 	{
 		$this->db->select('(sum(laba_agen_total)) as total_laba');
 		$this->db->from('t_checkout');
-		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('kode_ref', $kode_ref);
 		$this->db->where('is_confirm', '1');
 		$this->db->where('status_confirm', 'diterima');
 		$this->db->where('is_agen_klaim', '1');
@@ -261,12 +261,12 @@ class M_user extends CI_Model
 		return $q->row();
 	}
 
-	public function set_komisi_sudah_klaim($id_agen, $id_klaim)
+	public function set_komisi_sudah_klaim($kode_ref, $id_klaim)
 	{
 		$this->db->update(
 			't_checkout', 
 			['is_agen_klaim' => 1, 'id_klaim_agen' => $id_klaim], 
-			[ 'kode_agen' => $id_agen, 'is_confirm' => '1', 'status_confirm' => 'diterima', 'is_agen_klaim' => '0']
+			[ 'kode_ref' => $kode_ref, 'is_confirm' => '1', 'status_confirm' => 'diterima', 'is_agen_klaim' => '0']
 		);
 
         if ($this->db->affected_rows() > 0) {

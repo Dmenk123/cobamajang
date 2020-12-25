@@ -31,11 +31,15 @@ class Profile extends CI_Controller {
 		$profile = $this->m_global->single_row('m_user.*, t_checkout.is_confirm, t_checkout.status_confirm',['m_user.id' => $sess['id_user'], 'm_user.status' => 1], 'm_user', $join);
 
 		$kode_agen = $profile->kode_agen;
+		$kode_affiliate = $profile->kode_affiliate;
 		$email_agen = $profile->email;
-		$arr_komisi = $this->list_komisi_history($kode_agen);
-		$q = $this->m_user->get_komisi_belum_tarik($kode_agen );
-		$qq = $this->m_user->get_komisi_sudah_tarik($kode_agen );
-		$qqq = $this->m_user->get_komisi_pending_tarik($kode_agen );
+
+		$arr_komisi = $this->list_komisi_history($kode_affiliate);
+		$q = $this->m_user->get_komisi_belum_tarik($kode_affiliate );
+		// echo $this->db->last_query();exit;
+		
+		$qq = $this->m_user->get_komisi_sudah_tarik($kode_affiliate );
+		$qqq = $this->m_user->get_komisi_pending_tarik($kode_affiliate );
 		$qqqq = $this->m_user->cek_status_sudah_verify_agen($email_agen);
 
 		if($qqqq){
@@ -89,6 +93,84 @@ class Profile extends CI_Controller {
 		} //end loop
 
 		return $data;
+	}
+
+	public function list_pre_komisi_history($id_agen)
+	{
+		$list = $this->m_user->get_data_pre_komisi($id_agen);
+
+		$data = array();
+		$no = 0;
+		foreach ($list as $datalist) {
+			$link_detail = site_url('profile/komisi_detail/') . $datalist->id;
+			$no++;
+			$row = array();
+			//loop value tabel db
+			$row[] = $no;
+			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
+			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
+			$row[] = $datalist->kode_ref;
+			$data[] = $row;
+		} //end loop
+
+		return $data;
+	}
+
+	public function list_after_komisi_history($id_agen)
+	{
+		$list = $this->m_user->get_data_after_komisi($id_agen);
+		$data = array();
+		$no = 0;
+		foreach ($list as $datalist) {
+			$link_detail = site_url('profile/komisi_detail/') . $datalist->id;
+			$no++;
+			$row = array();
+			//loop value tabel db
+			$row[] = $no;
+			$row[] = date('d-m-Y H:i', strtotime($datalist->tanggal_verify));
+			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
+			$row[] = $datalist->kode_ref;
+			$row[] = $datalist->bukti_bayar;
+			$data[] = $row;
+		} //end loop
+
+		return $data;
+	}
+
+	
+	public function rincian_komisi()
+	{
+		$arr_komisi = [];
+		$arr_komisi_pre =[];
+		$id_user = clean_string($this->session->userdata('id_user'));
+
+		if ($this->session->userdata('id_role') != '3') {
+			return redirect('home','refresh');
+		}
+
+		//userdata
+		$userdata = $this->m_user->get_by_condition(['status' => 1, 'id' => $id_user], true);
+
+		// var_dump($userdata);exit;
+		$kode_agen = $userdata->kode_agen;
+		$kode_affiliate = $userdata->kode_affiliate;
+		$arr_komisi_belum = $this->list_komisi_history($kode_affiliate);
+		$arr_komisi_pre = $this->list_pre_komisi_history($kode_affiliate);
+		$arr_komisi_after = $this->list_after_komisi_history($kode_affiliate);
+	
+		$data = [
+			'data_user' => $userdata,
+			'data_komisi_belum' => $arr_komisi_belum,
+			'data_komisi_pre' => $arr_komisi_pre,
+			'data_komisi_after' => $arr_komisi_after
+		];
+		
+		// echo "<pre>";
+		// print_r ($data);
+		// echo "</pre>";
+		// exit;
+
+		$this->load->view('v_template', $data, FALSE);
 	}
 
 	public function bulan_indo($bulan)

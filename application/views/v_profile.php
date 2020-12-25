@@ -49,7 +49,7 @@
                     <br>
                     <br><strong>Jumlah Komisi <span style="color:red;">(Belum Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_belum'], 2, ",", "."); ?></strong>
                     <br><br>
-                    <button type="button" class="btn btn-sm btn-success" onclick="tarikCuan()" title="Tarik Komisi"> Tarik Komisi</button>
+                    <button type="button" class="btn btn-sm btn-success" onclick="prosesKlaim()" title="Tarik Komisi"> Tarik Komisi</button>
                     <a class="btn btn-sm btn-warning" title="Detail Komisi" href="<?= base_url('profile/rincian_komisi'); ?>"> Detail Komisi</a>
                 </div>
 
