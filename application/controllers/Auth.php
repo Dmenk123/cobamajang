@@ -9,9 +9,11 @@ class Auth extends CI_Controller {
 		$this->load->model('m_global');
 		$this->load->model('m_user');
 		$sess = $this->session->all_userdata();
-		if($sess['logged_in'] == true) {
-			if($sess['is_agen'] == true){
-				return redirect('home');
+		if(isset($sess['logged_in'])) {
+			if($sess['logged_in'] == true) {
+				if($sess['is_agen'] == true){
+					return redirect('home');
+				}
 			}
 		}
 	}
