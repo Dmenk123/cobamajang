@@ -164,7 +164,7 @@ class Profile extends CI_Controller {
 			'data_komisi_pre' => $arr_komisi_pre,
 			'data_komisi_after' => $arr_komisi_after
 		];
-		
+
 		// echo "<pre>";
 		// print_r ($data);
 		// echo "</pre>";
@@ -265,6 +265,72 @@ class Profile extends CI_Controller {
 
 		return $retval;
 	}
+
+	public function tarik_komisi()
+	{
+		$kode_klaim = $this->generate_kode_ref();
+		
+        $cek = $this->m_global->single_row('*',['kode_klaim' => $kode_klaim], 't_klaim_agen', NULL);
+        if($cek) {
+            //recursive
+            $this->tarik_komisi();
+		}else{
+			$id_user = clean_string($this->session->userdata('id_user'));
+			$userdata = $this->m_user->get_by_condition(['status' => 1, 'id' => $id_user], true);
+			$kode_agen = $userdata->kode_agen;
+			$kode_affiliate = $userdata->kode_affiliate;
+
+			$q = $this->m_user->get_komisi_belum_tarik($kode_affiliate);
+			$qq = $this->m_user->get_komisi_sudah_tarik($kode_affiliate);
+
+			if ((int)$q->total_laba == 0) {
+				echo json_encode([
+					'status' => FALSE
+				]);
+				return;
+			}
+			
+			$this->db->trans_begin();
+			$id_klaim_agen = $this->m_global->gen_uuid();
+			
+			//update flag is tarik
+			$update_flag_tarik = $this->m_user->set_komisi_sudah_klaim($kode_affiliate, $id_klaim_agen);
+			
+			//catat ke t_klaim_agen
+			if ($qq->total_laba) {
+				$saldo_sebelum = $qq->total_laba; 
+			}else{
+				$saldo_sebelum = 0;
+			}
+
+			$data = array(
+				'id' => $id_klaim_agen,
+				'kode_agen' => $kode_agen,
+				'saldo_sebelum' => $saldo_sebelum,
+				'jumlah_klaim' => (int)$q->total_laba,
+				'saldo_sesudah' => (int)$qq->total_laba + (int)$q->total_laba,
+				'datetime_klaim' => date('Y-m-d H:i:s'),
+				'created_at' => date('Y-m-d H:i:s'),
+				'kode_klaim' => $kode_klaim
+			);
+
+			$insert = $this->m_global->store($data, 't_klaim_agen');
+
+			if ($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				$status = FALSE;
+			} else {
+				$this->db->trans_commit();			
+				$status = TRUE;
+			}
+
+			echo json_encode([
+				'status' => $status,
+				'kode_klaim' => $kode_klaim
+			]);
+		}
+	}
+	
 
 
 }

@@ -501,56 +501,38 @@
         });
     }
     
-    // function prosesKlaim() {
-	// 	swal({
-	// 		title: "Tarik Komisi",
-	// 		text: "Anda Yakin Ingin Melakukan Penarikan Komisi ?? ",
-	// 		icon: "warning",
-	// 		buttons: [
-	// 			'Tidak',
-	// 			'Ya'
-	// 		],
-	// 		dangerMode: true,
-	// 	}).then(function(isConfirm) {
-	// 		if (isConfirm) {
-	// 			$.ajax({
-	// 				url: baseUrl + 'profile/tarik_komisi',
-	// 				type: 'POST',
-	// 				dataType: "JSON",
-	// 				success: function(data) {
-	// 					if (data.status) {
-	// 						swal("Sukses, Komisi kode : " + data.kode_klaim + "", 'Selengkapnya bisa diihat pada rincian Penarikan', "success").then(function() {
-	// 							location.reload(true);
-	// 						});
-	// 					} else {
-	// 						swal("Gagal", 'Gagal Menarik Komisi, Coba Lagi Nanti..', "error").then(function() {
-	// 							location.reload(true);
-	// 						});
-	// 					}
-	// 				}
-	// 			});
-	// 		} else {
-	// 			swal("Batal", "Aksi dibatalkan", "error");
-	// 		}
-	// 	});
-    // }
     function prosesKlaim() {
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this imaginary file!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                swal("Poof! Your imaginary file has been deleted!", {
-                icon: "success",
-                });
-            } else {
-                swal("Your imaginary file is safe!");
-            }
-        });
+		swal({
+			title: "Tarik Komisi",
+			text: "Anda Yakin Ingin Melakukan Penarikan Komisi ?? ",
+			icon: "warning",
+			buttons: [
+				'Tidak',
+				'Ya'
+			],
+			//dangerMode: true,
+		}).then(function(isConfirm) {
+			if (isConfirm) {
+				$.ajax({
+                    url: "<?=base_url('profile/tarik_komisi')?>",
+					type: 'POST',
+					dataType: "JSON",
+					success: function(data) {
+						if (data.status) {
+							swal("Sukses, Komisi kode : " + data.kode_klaim + "", 'Selengkapnya bisa diihat pada rincian Penarikan', "success").then(function() {
+								location.reload(true);
+							});
+						} else {
+							swal("Gagal", 'Gagal Menarik Komisi, Coba Lagi Nanti..', "error").then(function() {
+								location.reload(true);
+							});
+						}
+					}
+				});
+			} else {
+				swal("Batal", "Aksi dibatalkan", "error");
+			}
+		});
     }
 
     
