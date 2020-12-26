@@ -11,8 +11,10 @@ class Auth extends CI_Controller {
 		$sess = $this->session->all_userdata();
 		if(isset($sess['logged_in'])) {
 			if($sess['logged_in'] == true) {
-				if($sess['is_agen'] == true){
-					return redirect('home');
+				if(isset($sess['is_agen'])) {
+					if($sess['is_agen'] == true){
+						return redirect('home');
+					}
 				}
 			}
 		}
