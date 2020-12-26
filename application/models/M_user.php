@@ -147,9 +147,10 @@ class M_user extends CI_Model
 
 	private function _get_data_pre_komisi_query($kode_ref) //term is value of $_REQUEST['search']
 	{
-		$this->db->select('*');
+		$this->db->select('t_checkout.*, t_klaim_agen.kode_klaim');
 
 		$this->db->from('t_checkout');
+		$this->db->join('t_klaim_agen', 't_checkout.id_klaim_agen = t_klaim_agen.id', 'left');
 		$this->db->where('t_checkout.kode_ref', $kode_ref);
 		$this->db->where('t_checkout.status_confirm', 'diterima'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_confirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
@@ -167,7 +168,7 @@ class M_user extends CI_Model
 
 	private function _get_data_after_komisi_query($kode_ref) //term is value of $_REQUEST['search']
 	{
-		$this->db->select('t_checkout.*, t_klaim_verify.bukti as bukti_bayar, t_klaim_verify.tanggal_verify');
+		$this->db->select('t_checkout.*, t_klaim_verify.bukti as bukti_bayar, t_klaim_verify.tanggal_verify, t_klaim_verify.kode_verify');
 		$this->db->from('t_checkout');
 		$this->db->join('t_klaim_verify', 't_checkout.id_klaim_agen = t_klaim_verify.id_klaim_agen and t_klaim_verify.is_aktif = 1', 'left');
 		$this->db->where('t_checkout.kode_ref', $kode_ref);

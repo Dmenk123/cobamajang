@@ -54,7 +54,7 @@
 											<th style="text-align: center; width:5%">No</th>
 											<th style="text-align: center; width:15%">Tanggal</th>
 											<th style="text-align: center; width:25%">Laba Agen</th>
-											<th style="text-align: center; width:13%">Kode Ref</th>
+											<th style="text-align: center; width:13%">Kode Ref Klaim</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -91,7 +91,7 @@
 											<th style="text-align: center; width:5%">No</th>
 											<th style="text-align: center; width:15%">Tanggal</th>
 											<th style="text-align: center; width:25%">Laba Agen</th>
-											<th style="text-align: center; width:13%">Kode Ref</th>
+											<th style="text-align: center; width:13%">Kode Ref Verifikasi</th>
 											<th style="text-align: center; width:13%">Bukti</th>
 										</tr>
 									</thead>
@@ -130,3 +130,27 @@
         <!-- Container Ends -->
     </div>
 </section>
+
+<!-- Modal -->
+<div id="modalBukti" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Bukti Transfer</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- <iframe id='imageArea' src="" title="Bukti Transfer" width="500" height="400"></iframe> -->
+        <span id="judul" style="text-align: center;font-size: 20px;font-weight: bold;"></span>
+        <br>
+        <img id='imageArea' src="" alt="imageArea" title="bukti transfer" width="400" height="400">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

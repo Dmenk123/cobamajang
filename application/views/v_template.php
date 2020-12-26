@@ -160,6 +160,8 @@
     }elseif($this->uri->segment(1) == 'profile'){
         if($this->uri->segment(2) == 'rincian_komisi'){
             $this->load->view('v_detail_komisi'); 
+        }elseif($this->uri->segment(2) == 'edit_profil'){
+            $this->load->view('v_edit_profil'); 
         }else{
             $this->load->view('v_profile'); 
         }
@@ -535,6 +537,62 @@
 		});
     }
 
+    function update_profile(){
+        swal({
+			title: "Update Profile",
+			text: "Anda Yakin Ingin Melakukan Update Profile ?? ",
+			icon: "warning",
+			buttons: [
+				'Tidak',
+				'Ya'
+			],
+			//dangerMode: true,
+		}).then(function(isConfirm) {
+			if (isConfirm) {
+                var form = $('#form_update_profil')[0];
+                var data = new FormData(form);
+				$.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "<?=base_url('profile/update_profile')?>",
+                    data: data,
+                    dataType: "JSON",
+                    processData: false, // false, it prevent jQuery form transforming the data into a query string
+                    contentType: false, 
+                    cache: false,
+                    timeout: 600000,
+					success: function(data) {
+						if (data.status) {
+							swal("Sukses", 'Sukses Update Profile', "success").then(function() {
+								window.location = data.redirect;
+							});
+						} else {
+							for (var i = 0; i < data.inputerror.length; i++) 
+                            {
+                                if (data.inputerror[i] != 'pegawai') {
+                                    $('[name="'+data.inputerror[i]+'"]').addClass('is-invalid');
+                                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]).addClass('invalid-feedback'); //select span help-block class set text error string
+                                }else{
+                                    //ikut style global
+                                    $('[name="'+data.inputerror[i]+'"]').next().next().text(data.error_string[i]).addClass('invalid-feedback-select');
+                                }
+                            }
+						}
+					}
+				});
+			} else {
+				swal("Batal", "Aksi dibatalkan", "error");
+			}
+		});
+    }
+
+    function lihatBukti(imgfile, kodeVerify) {
+		var urlBukti = "<?=base_url();?>"+imgfile;
+		$('#modalBukti').modal('show');
+		$('#imageArea').attr('src', urlBukti);
+		$('#judul').text('Bukti Transfer Kode  : '+kodeVerify);
+	}
+
     
     $('.tombol_method_bayar').click(function (e) { 
         e.preventDefault();
@@ -553,6 +611,19 @@
                 $('#main-form-bayar').html(response);
             }
         });
+    });
+
+    $('#ceklistpwd').change(function() {
+        if (this.checked) {
+            $('#password').attr('readonly', true).css('background-color', "#8a8991");
+            $('#repassword').attr('readonly', true).css('background-color', "#8a8991");
+            $('#password_lama').attr('readonly', true).css('background-color', "#8a8991");
+        } else {
+            $('#password').attr('readonly', false).css('background-color', "#e8f0fe");
+            $('#repassword').attr('readonly', false).css('background-color', "#e8f0fe");
+            $('#password_lama').attr('readonly', false).css('background-color', "#e8f0fe");
+
+        }
     });
 
     </script>

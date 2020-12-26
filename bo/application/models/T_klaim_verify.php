@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class T_klaim_agen extends CI_Model
+class T_klaim_verify extends CI_Model
 {
-	var $table = 't_klaim_agen';
+	var $table = 't_klaim_verify';
 	var $column_search = ["tka.created_at", "mu.nama_lengkap", "mu.email", "tka.jumlah_klaim", "tka.kode_klaim"];
 	
 	var $column_order = ["tka.created_at", "mu.nama_lengkap", "mu.email", "tka.jumlah_klaim", "tka.kode_klaim", null];
@@ -28,7 +28,7 @@ class T_klaim_agen extends CI_Model
 			$this->db->where('tka.id_user_verify is not null');	
 		}
 
-		$this->db->where("tka.created_at between '" . $arr_data['tgl_awal'].' 00:00:00' . "' and '" . $arr_data['tgl_akhir'].' 23:59:59' . "'");
+		$this->db->where("tka.created_at between '" . $arr_data['tgl_awal'] . "' and '" . $arr_data['tgl_akhir'] . "'");
 
 		$i = 0;
 

@@ -11,7 +11,7 @@
  Target Server Version : 100413
  File Encoding         : 65001
 
- Date: 26/12/2020 08:29:45
+ Date: 27/12/2020 01:22:51
 */
 
 SET NAMES utf8mb4;
@@ -104,16 +104,16 @@ CREATE TABLE `m_user`  (
   `kode_agen` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `kode_affiliate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES (1, 1, 'admin', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, '2020-12-25 23:17:07', 'USR-00001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `m_user` VALUES (1, 1, 'admin', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, '2020-12-26 22:44:09', 'USR-00001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `m_user` VALUES (2, 1, 'coba', 'Tzg1eTllUlU2a2xNQk5yYktIM1pwUT09', NULL, NULL, 'USR-00002', 'coba-1602775328.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-10-15 22:22:08', '2020-10-15 22:43:54', '2020-10-15 22:58:50', NULL, NULL, NULL);
-INSERT INTO `m_user` VALUES (4, 3, 'agen', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, '2020-12-25 22:50:07', 'USR-00003', NULL, 'coba agen agen', NULL, NULL, NULL, '1212', NULL, NULL, 'agen@gmail.com', 'BCC', '121212', '2020-12-24 13:43:08', NULL, NULL, NULL, 'MEM-00001', '79AOT');
-INSERT INTO `m_user` VALUES (5, 3, 'yoyok', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, NULL, 'USR-00004', NULL, 'Yoyok Agen Ganteng', NULL, NULL, NULL, '12131211212', NULL, NULL, 'yoyok@agen.com', 'BCA', '41214121', '2020-12-25 14:21:50', '2020-12-25 15:49:23', NULL, NULL, 'MEM-00002', '1FWHN');
-INSERT INTO `m_user` VALUES (6, 3, 'hendro', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, NULL, 'USR-00005', NULL, 'Hendro Jamet', NULL, NULL, NULL, '9999', NULL, NULL, 'hendro@gmail.com', 'ABC', '1891289128', '2020-12-25 16:31:15', '2020-12-25 16:33:50', NULL, NULL, 'MEM-00003', 'X5AW4');
+INSERT INTO `m_user` VALUES (7, 3, 'agen', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, '2020-12-26 22:51:20', 'USR-00003', NULL, 'agen mantap bgt', NULL, NULL, NULL, '12131212', 'files/img/user_img/agen-mantap-bgt-1609006883.jpg', 'files/img/user_img/thumbs/agen-mantap-bgt-1609006883_thumb.jpg', 'agen@gmail.com', 'ABC', '19289182', '2020-12-26 22:46:00', '2020-12-27 01:21:23', NULL, NULL, 'MEM-00001', '0Q2Z2');
+INSERT INTO `m_user` VALUES (8, 3, 'andrew', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, NULL, 'USR-00004', NULL, 'Andrew Agen', NULL, NULL, NULL, '1298192', NULL, NULL, 'andrew@gmail.com', 'ABU', '131412', '2020-12-26 22:47:40', '2020-12-26 22:49:28', NULL, NULL, 'MEM-00002', 'BX43C');
+INSERT INTO `m_user` VALUES (9, 3, 'anwar', 'SnIvSVV6c2UwdWhKS1ZKMDluUlp4dz09', 1, NULL, 'USR-00005', NULL, 'Anwar Bubut', NULL, NULL, NULL, '12345', NULL, NULL, 'anwar@gmail.com', 'UGD', '1902910', '2020-12-26 22:50:44', '2020-12-26 22:51:04', NULL, NULL, 'MEM-00003', '4B4VS');
 
 -- ----------------------------
 -- Table structure for t_checkout
@@ -138,19 +138,19 @@ CREATE TABLE `t_checkout`  (
   `is_manual` int(1) NULL DEFAULT NULL COMMENT '1 : manual, null : payment gateway',
   `kode_agen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'kode agen',
   `kode_ref` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'kode referal (jika pembelian menggunakan link affiliate)',
-  `is_agen_klaim` int(1) NULL DEFAULT 0,
-  `is_verify_klaim` int(1) NULL DEFAULT 0,
-  `id_klaim_agen` int(11) NULL DEFAULT NULL,
-  `laba_agen_total` float(20, 2) NULL DEFAULT NULL,
+  `is_agen_klaim` int(1) NULL DEFAULT 0 COMMENT 'di isi satu, jika agen lain melakukan claim atas transaksi ini',
+  `is_verify_klaim` int(1) NULL DEFAULT 0 COMMENT 'di isi satu jika sudah dilakukan verifikasi oleh admin',
+  `id_klaim_agen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'di isi id_klaim_agen (t_klaim_agen) melakukan klaim atas transaksi ini',
+  `laba_agen_total` float(20, 2) NULL DEFAULT NULL COMMENT 'di isi laba dari agen yg melakukan klaim atas transaksi ini',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_checkout
 -- ----------------------------
-INSERT INTO `t_checkout` VALUES (1, 'agen@gmail.com', 'coba agen agen', '1212', 2200000.00, 2200000.00, 'mIXLdsbX', '', '2020-12-24 13:43:08', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/coba-agen-agen-1608792188.PNG', 'files/img/bukti_bayar/thumbs/coba-agen-agen-1608792188_thumb.PNG', 1, 'MEM-00001', NULL, 0, 0, NULL, NULL);
-INSERT INTO `t_checkout` VALUES (2, 'yoyok@agen.com', 'Yoyok Agen Ganteng', '12131211212', 2200000.00, 2200000.00, 'pLBJcCQ1', '', '2020-12-25 14:21:50', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/yoyok-agen-ganteng-1608880910.jpg', 'files/img/bukti_bayar/thumbs/yoyok-agen-ganteng-1608880910_thumb.jpg', 1, 'MEM-00002', '79AOT', 1, 0, 878, 660000.00);
-INSERT INTO `t_checkout` VALUES (3, 'hendro@gmail.com', 'Hendro Jamet', '9999', 2200000.00, 2200000.00, 'kU3snKwm', '', '2020-12-25 16:31:15', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/hendro-jamet-1608888675.PNG', 'files/img/bukti_bayar/thumbs/hendro-jamet-1608888675_thumb.PNG', 1, 'MEM-00003', '79AOT', 1, 0, 878, 660000.00);
+INSERT INTO `t_checkout` VALUES (1, 'agrn@gmail.com', 'agen mantap', '12131212', 2200000.00, 2200000.00, 'delWrQ03', '', '2020-12-26 22:46:00', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/agen-mantap-1608997560.PNG', 'files/img/bukti_bayar/thumbs/agen-mantap-1608997560_thumb.PNG', 1, 'MEM-00001', NULL, 0, 0, NULL, NULL);
+INSERT INTO `t_checkout` VALUES (2, 'andrew@gmail.com', 'Andrew Agen', '1298192', 2200000.00, 2200000.00, 'lGHDdEMW', '', '2020-12-26 22:47:40', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/andrew-agen-1608997660.PNG', 'files/img/bukti_bayar/thumbs/andrew-agen-1608997660_thumb.PNG', 1, 'MEM-00002', '0Q2Z2', 1, 1, 'c2410183-6a3d-46db-8e0d-54ac88390a4f', 660000.00);
+INSERT INTO `t_checkout` VALUES (3, 'anwar@gmail.com', 'Anwar Bubut', '12345', 2200000.00, 2200000.00, 'R2grIlI9', '', '2020-12-26 22:50:44', NULL, NULL, 1, 'diterima', 'files/img/bukti_bayar/anwar-bubut-1608997844.PNG', 'files/img/bukti_bayar/thumbs/anwar-bubut-1608997844_thumb.PNG', 1, 'MEM-00003', '0Q2Z2', 1, 1, 'c2410183-6a3d-46db-8e0d-54ac88390a4f', 660000.00);
 
 -- ----------------------------
 -- Table structure for t_email
@@ -164,17 +164,14 @@ CREATE TABLE `t_email`  (
   `updated_at` datetime(0) NOT NULL,
   `deleted_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 14 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = MyISAM AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_email
 -- ----------------------------
-INSERT INTO `t_email` VALUES (10, 29, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : Abdul Hamid</li>\n	<li>Email : andrecoy676@gmail.com</li>\n	<li>Order id : 1391010273</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran kelas eksklusif. Berikut link Zoom beserta jadwal kursus.</p>\n\n<ul>\n	<li><strong>Jadwal : Hari / DD-MM-YYYY Pukul HH:MM</strong></li>\n	<li><strong>Link: www.zoom.com/asoy</strong></li>\n</ul>\n\n<p>Salam Sukses.</p>\n', '2020-11-06 17:14:20', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `t_email` VALUES (9, 13, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : NUR CAHYONO`</li>\n	<li>Email : nurcahyono320@gmail.com</li>\n	<li>Order id : 341527899</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran kelas eksklusif. Berikut link Zoom beserta jadwal kursus.</p>\n\n<ul>\n	<li><strong>Jadwal : BAIK / DD-MM-YYYY Pukul HH:MM</strong></li>\n	<li><strong>Link: www.zoom.com/asoy</strong></li>\n</ul>\n\n<p>Salam Sukses.</p>\n', '2020-11-03 21:38:10', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `t_email` VALUES (8, 13, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama :&nbsp;NUR CAHYONO`</li>\n	<li>Email :&nbsp;nurcahyono320@gmail.com</li>\n	<li>Order id :&nbsp;341527899</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran kelas eksklusif. Berikut link Zoom beserta jadwal kursus.</p>\n\n<ul>\n	<li><strong>Jadwal : Baik&nbsp;/ DD-MM-YYYY Pukul HH:MM</strong></li>\n	<li><strong>Link: www.zoom.com/asoy</strong></li>\n</ul>\n\n<p>&nbsp;Salam Sukses.</p>\n', '2020-11-03 21:30:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `t_email` VALUES (11, 1, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : coba agen agen</li>\n	<li>Email : agen@gmail.com</li>\n	<li>Order id : mIXLdsbX</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/79AOT </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-24 22:46:09', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `t_email` VALUES (12, 2, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : Yoyok Agen Ganteng</li>\n	<li>Email : yoyok@agen.com</li>\n	<li>Order id : pLBJcCQ1</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/1FWHN </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-25 15:49:23', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `t_email` VALUES (13, 3, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : Hendro Jamet</li>\n	<li>Email : hendro@gmail.com</li>\n	<li>Order id : kU3snKwm</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/X5AW4 </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-25 16:33:50', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `t_email` VALUES (1, 1, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : agen mantap</li>\n	<li>Email : agrn@gmail.com</li>\n	<li>Order id : delWrQ03</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/0Q2Z2 </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-26 22:46:31', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `t_email` VALUES (2, 2, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : Andrew Agen</li>\n	<li>Email : andrew@gmail.com</li>\n	<li>Order id : lGHDdEMW</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/BX43C </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-26 22:49:28', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `t_email` VALUES (3, 3, '<p>Kepada Yth.</p>\n\n<ul>\n	<li>Nama : Anwar Bubut</li>\n	<li>Email : anwar@gmail.com</li>\n	<li>Order id : R2grIlI9</li>\n</ul>\n\n<p>Terima kasih telah melakukan pendaftaran sebagai BRAND AMBASSADOR. Berikut adalah link Affiliate Anda</p>\n\n<ul>\n	<li><strong>Link Affiliate: http://localhost/cobamajang/home/aff/4B4VS </strong></li>\n</ul>\n\n<p>Anda dapat melihat link Affiliate anda pada member area. Login sesuai User Dan Password anda. Salam Sukses</p>\n', '2020-12-26 22:51:04', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for t_harga
@@ -221,7 +218,7 @@ CREATE TABLE `t_klaim_agen`  (
 -- ----------------------------
 -- Records of t_klaim_agen
 -- ----------------------------
-INSERT INTO `t_klaim_agen` VALUES ('878a428f-0f47-4031-85ab-d7bdb03c79bd', 'MEM-00001', NULL, 0.00, 1320000.00, 1320000.00, '2020-12-25 23:13:55', NULL, '2020-12-25 23:13:55', NULL, 'seY9TRJ8');
+INSERT INTO `t_klaim_agen` VALUES ('c2410183-6a3d-46db-8e0d-54ac88390a4f', 'MEM-00001', 1, 0.00, 1320000.00, 1320000.00, '2020-12-26 22:51:31', '2020-12-26 23:01:17', '2020-12-26 22:51:31', NULL, 'tQ8dcje7');
 
 -- ----------------------------
 -- Table structure for t_klaim_verify
@@ -229,7 +226,7 @@ INSERT INTO `t_klaim_agen` VALUES ('878a428f-0f47-4031-85ab-d7bdb03c79bd', 'MEM-
 DROP TABLE IF EXISTS `t_klaim_verify`;
 CREATE TABLE `t_klaim_verify`  (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `id_klaim_agen` int(11) NULL DEFAULT NULL,
+  `id_klaim_agen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_user` int(11) NULL DEFAULT NULL,
   `tanggal_verify` datetime(0) NULL DEFAULT NULL,
   `bank` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -237,12 +234,15 @@ CREATE TABLE `t_klaim_verify`  (
   `bukti` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `nilai_transfer` float(20, 2) NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT NULL,
+  `bukti_thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `kode_verify` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_klaim_verify
 -- ----------------------------
+INSERT INTO `t_klaim_verify` VALUES ('e6b328aa-609e-4f1e-9690-fea800863da0', 'c2410183-6a3d-46db-8e0d-54ac88390a4f', 1, '2020-12-26 23:01:17', 'ABU', '31212', 'files/img/bukti_verifikasi/agen-mantap-1608998477.PNG', 1320000.00, 1, 'files/img/bukti_verifikasi/thumbs/agen-mantap-1608998477_thumb.PNG', 'UOI8O');
 
 -- ----------------------------
 -- Table structure for t_log_harga

@@ -217,49 +217,11 @@ function readURL(input) {
     }
 }
 
-function update_trans(order_id){
-    swalConfirmDelete.fire({
-        title: 'Ubah Ingin Mengupdate Data ?',
-        text: "Apakah Anda Yakin ?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, !',
-        cancelButtonText: 'Tidak, !',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url : base_url + '../transaction/status',
-                type: "POST",
-                dataType: "JSON",
-                data : {order_id : order_id},
-                success: function(data)
-                {
-                    swalConfirm.fire('Berhasil !', data.pesan, 'success');
-                    table.ajax.reload();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    Swal.fire('Terjadi Kesalahan');
-                }
-            });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalConfirm.fire(
-            'Dibatalkan',
-            'Aksi Dibatalakan',
-            'error'
-          )
-        }
-    });
-}
-
-function set_failure(id){
-    swalConfirmDelete.fire({
-        title: 'Set Ke Failure ?',
-        text: "Data Akan Diset ke Failure ?",
+$('#form_verify').submit(function (e) { 
+    e.preventDefault();
+    swalConfirm.fire({
+        title: 'Verifikasi Klaim ?',
+        text: "Klaim Member akan Diverifikasi ?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya, Lakukan !',
@@ -267,21 +229,47 @@ function set_failure(id){
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
+            var form = $('#form_verify')[0];
+            var data = new FormData(form);
+            
             $.ajax({
-                url : base_url + 'confirm_jual/set_failure',
                 type: "POST",
+                enctype: 'multipart/form-data',
+                url: base_url + 'verify_klaim/verifikasi_klaim',
+                data: data,
                 dataType: "JSON",
-                data : {id:id},
+                processData: false, // false, it prevent jQuery form transforming the data into a query string
+                contentType: false, 
+                cache: false,
+                timeout: 600000,
                 success: function(data)
                 {
-                    swalConfirm.fire('Berhasil !', 'Berhasil Set Failure', 'success');
-                    table.ajax.reload();
+                    if(data.status) {
+                        swalConfirm.fire('Berhasil !', 'Transaksi Berhasil Diverifikasi', 'success');
+                        window.location = base_url+"verify_klaim";
+                    }else {
+                        if(data.err){
+                            swal.fire("Gagal!!", "Terjadi Kesalahan", "warning");
+                        }else{
+                            for (var i = 0; i < data.inputerror.length; i++) 
+                            {
+                                if (data.inputerror[i] != 'pegawai') {
+                                    $('[name="'+data.inputerror[i]+'"]').addClass('is-invalid');
+                                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]).addClass('invalid-feedback'); //select span help-block class set text error string
+                                }else{
+                                    //ikut style global
+                                    $('[name="'+data.inputerror[i]+'"]').next().next().text(data.error_string[i]).addClass('invalid-feedback-select');
+                                }
+                            }
+                        }
+                    }                    
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     Swal.fire('Terjadi Kesalahan');
                 }
             });
+           
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
@@ -293,82 +281,5 @@ function set_failure(id){
           )
         }
     });
-}
+});
 
-function batalkan_transaksi(id){
-    swalConfirmDelete.fire({
-        title: 'Batalkan Transaksi ?',
-        text: "Transaksi Member akan dibatalkan, dan member akan di nonaktifkan ?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, Lakukan !',
-        cancelButtonText: 'Tidak, Batalkan!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url : base_url + 'penjualan_selesai/batalkan_transaksi',
-                type: "POST",
-                dataType: "JSON",
-                data : {id:id},
-                success: function(data)
-                {
-                    swalConfirm.fire('Berhasil !', 'Transaksi Berhasil Dibatalkan', 'success');
-                    table.ajax.reload();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    Swal.fire('Terjadi Kesalahan');
-                }
-            });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalConfirm.fire(
-            'Dibatalkan',
-            'Aksi Dibatalakan',
-            'error'
-          )
-        }
-    });
-}
-
-function kembalikan_transaksi(id){
-    swalConfirmDelete.fire({
-        title: 'Kembalikan Transaksi ?',
-        text: "Data akan di kembalikan ke tahap awal ?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, Lakukan !',
-        cancelButtonText: 'Tidak, Batalkan!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url : base_url + 'confirm_jual/kembalikan_transaksi',
-                type: "POST",
-                dataType: "JSON",
-                data : {id:id},
-                success: function(data)
-                {
-                    swalConfirm.fire('Berhasil !', 'Berhasil Set Failure', 'success');
-                    table.ajax.reload();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    Swal.fire('Terjadi Kesalahan');
-                }
-            });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalConfirm.fire(
-            'Dibatalkan',
-            'Aksi Dibatalakan',
-            'error'
-          )
-        }
-    });
-}

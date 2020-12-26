@@ -28,6 +28,7 @@ class Profile extends CI_Controller {
 				'on'	=> 'm_user.kode_agen = t_checkout.kode_agen'
 			]
 		];
+
 		$profile = $this->m_global->single_row('m_user.*, t_checkout.is_confirm, t_checkout.status_confirm',['m_user.id' => $sess['id_user'], 'm_user.status' => 1], 'm_user', $join);
 
 		$kode_agen = $profile->kode_agen;
@@ -109,7 +110,7 @@ class Profile extends CI_Controller {
 			$row[] = $no;
 			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
 			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
-			$row[] = $datalist->kode_ref;
+			$row[] = $datalist->kode_klaim;
 			$data[] = $row;
 		} //end loop
 
@@ -129,7 +130,7 @@ class Profile extends CI_Controller {
 			$row[] = $no;
 			$row[] = date('d-m-Y H:i', strtotime($datalist->tanggal_verify));
 			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
-			$row[] = $datalist->kode_ref;
+			$row[] = $datalist->kode_verify;
 			$row[] = $datalist->bukti_bayar;
 			$data[] = $row;
 		} //end loop
@@ -137,7 +138,6 @@ class Profile extends CI_Controller {
 		return $data;
 	}
 
-	
 	public function rincian_komisi()
 	{
 		$arr_komisi = [];
@@ -331,6 +331,290 @@ class Profile extends CI_Controller {
 		}
 	}
 	
+	public function edit_profil()
+	{
+		$obj_date = new DateTime();
+		$timestamp = $obj_date->format('Y-m-d H:i:s');
+		$tanggal = $obj_date->format('Y-m-d');
+		
+		$sess = $this->session->all_userdata();
 
+		$join = [ 
+			[
+				'table' => 't_checkout',
+				'on'	=> 'm_user.kode_agen = t_checkout.kode_agen'
+			]
+		];
+		
+		$profile = $this->m_global->single_row('m_user.*, t_checkout.is_confirm, t_checkout.status_confirm',['m_user.id' => $sess['id_user'], 'm_user.status' => 1], 'm_user', $join);
+
+		$data = [
+			'profile' => $profile
+		];
+
+		
+		// echo "<pre>";
+		// print_r ($data);
+		// echo "</pre>";
+		// exit;
+
+		$this->load->view('v_template', $data, FALSE);
+	}
+
+
+	public function update_profile()
+	{
+		$obj_date = new DateTime();
+		$timestamp = $obj_date->format('Y-m-d H:i:s');
+		$tanggal = $obj_date->format('Y-m-d');
+
+	    $this->load->library('Enkripsi');
+		$flag_upload_foto = FALSE;
+		$flag_ganti_pass = FALSE;
+		
+		$arr_valid = $this->_validate();
+
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode(['status' => FALSE, 'inputerror' => $arr_valid['inputerror'], 'error_string' => $arr_valid['error_string']]);
+			return;
+		}
+
+		$id_user = $this->session->userdata('id_user');
+		$password = $this->input->post('password');
+		$repassword = $this->input->post('repassword');
+		$password_lama = $this->input->post('password_lama');
+		$telp = $this->input->post('telp');
+		$email = $this->input->post('email');
+		$rekening = $this->input->post('rekening');
+		$bank = strtoupper(strtolower($this->input->post('bank')));
+		$nama_lengkap = $this->input->post('nama');
+		$namafileseo = $this->seoUrl($nama_lengkap.' '.time());
+
+		$old_data = $this->m_user->get_by_id($id_user);
+		
+		$this->db->trans_begin();
+		
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			$flag_ganti_pass = TRUE;
+			$hasil_password = $this->enkripsi->enc_dec('encrypt', $password);
+			$hasil_password_lama = $this->enkripsi->enc_dec('encrypt', $password_lama);
+
+			if ($old_data->password != $hasil_password_lama) {
+				$data['inputerror'][] = 'password_lama';
+				$data['error_string'][] = 'Password Lama Salah';
+				$data['status'] = FALSE;
+				echo json_encode($data);
+				return;
+			}
+
+			if ($password != $repassword) {
+				$data['inputerror'][] = 'password';
+				$data['error_string'][] = 'Password baru Tidak Sama';
+				$data['status'] = FALSE;
+
+				$data['inputerror'][] = 'repassword';
+				$data['error_string'][] = 'Password baru Tidak Sama';
+				$data['status'] = FALSE;
+				echo json_encode($data);
+				return;
+			}
+		}
+
+		$this->db->trans_begin();
+		
+		$file_mimes = ['image/png', 'image/x-citrix-png', 'image/x-png', 'image/x-citrix-jpeg', 'image/jpeg', 'image/pjpeg'];
+
+		if(isset($_FILES['foto']['name']) && in_array($_FILES['foto']['type'], $file_mimes)) {
+			$flag_upload_foto = TRUE;		
+			if (!file_exists('./files/img/user_img/')) {
+				mkdir('./files/img/user_img/', 0777, true);
+			}
+
+			$this->konfigurasi_upload_img($namafileseo);
+			//get detail extension
+			$pathDet = $_FILES['foto']['name'];
+			$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+			
+			if ($this->file_obj->do_upload('foto')) 
+			{
+				$gbrBukti = $this->file_obj->data();
+				$nama_file_foto = $gbrBukti['file_name'];
+				$output_thumb = $this->konfigurasi_image_thumb($nama_file_foto, $gbrBukti);
+				$this->image_lib->clear();
+				## replace nama file + ext
+				$namafileseo = $namafileseo.'.'.$extDet;
+			} else {
+				$error = array('error' => $this->file_obj->display_errors());
+				//var_dump($error);exit;
+			}
+		}
+
+		//data input array
+		$input = ['updated_at' => date('Y-m-d H:i:s')];
+
+		if ($flag_ganti_pass) {
+			$input['password'] = $hasil_password;
+		}
+
+		$input = [
+			'nama_lengkap'=> $nama_lengkap,
+			'no_telp' => $telp,
+			'email' => $email,
+			'bank' => $bank,
+			'rekening' => $rekening,
+			'updated_at' => $timestamp
+		];
+
+		if ($flag_upload_foto == TRUE) {
+			$input['gambar'] = "files/img/user_img/".$namafileseo;
+			$input['thumb_gambar'] = "files/img/user_img/thumbs/".$output_thumb;
+		}
+
+		//update to db
+		$upd = $this->m_user->update(['id' => $id_user], $input);
+
+		$this->db->trans_complete();
+		// was there any update or error?
+		// if ($this->db->affected_rows() == '1') {
+		// 	echo $this->db->last_query();exit;
+		// } else {
+		// 	// any trans error?
+		// 	if ($this->db->trans_status() === FALSE) {
+		// 		var_dump('error');
+		// 	}
+		// 	var_dump($this->db->error());
+		// }
+		// exit;
+		
+        
+		
+		// var_dump($upd);exit;
+		
+
+        if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$status = FALSE;
+		} else {
+			$this->db->trans_commit();			
+			$status = TRUE;
+		}
+
+		echo json_encode([
+			'status' => $status,
+			'redirect' => base_url('profile')
+		]);
+	}
+
+	private function konfigurasi_upload_img($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './files/img/user_img/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'file_obj');
+		$this->file_obj->initialize($config);
+	}
+
+	private function konfigurasi_image_thumb($filename, $gbr)
+	{
+		//buat folder
+		if (!file_exists('./files/img/user_img/thumbs')) {
+			mkdir('./files/img/user_img/thumbs', 0777, true);
+		}
+
+		//konfigurasi image lib
+	    $config2['image_library'] = 'gd2';
+	    $config2['source_image'] = './files/img/user_img/'.$filename;
+	    $config2['create_thumb'] = TRUE;
+	 	$config2['thumb_marker'] = '_thumb';
+	    $config2['maintain_ratio'] = FALSE;
+	    $config2['new_image'] = './files/img/user_img/thumbs/'.$filename;
+	    $config2['overwrite'] = TRUE;
+	    $config2['quality'] = '100%';
+	 	$config2['width'] = 45;
+	 	$config2['height'] = 45;
+	    $this->load->library('image_lib',$config2); //load image library
+	    $this->image_lib->initialize($config2);
+	    $this->image_lib->resize();
+	    return $output_thumb = $gbr['raw_name'].'_thumb'.$gbr['file_ext'];	
+	}
+	
+
+	private function _validate()
+	{
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			if ($this->input->post('password') == '') {
+				$data['inputerror'][] = 'password';
+				$data['error_string'][] = 'Wajib mengisi password Baru';
+				$data['status'] = FALSE;
+			}
+
+			if ($this->input->post('repassword') == null) {
+				$data['inputerror'][] = 'repassword';
+				$data['error_string'][] = 'Wajib mengisi ulang Password Baru';
+				$data['status'] = FALSE;
+			}
+
+			if ($this->input->post('password_lama') == null) {
+				$data['inputerror'][] = 'password_lama';
+				$data['error_string'][] = 'Wajib mengisi password Lama';
+				$data['status'] = FALSE;
+			}
+		}
+
+		if ($this->input->post('nama') == '') {
+			$data['inputerror'][] = 'nama';
+			$data['error_string'][] = 'Wajib mengisi nama';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('telp') == '') {
+				$data['inputerror'][] = 'telp';
+				$data['error_string'][] = 'Wajib mengisi Nomor Telepon';
+				$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('email') == '') {
+				$data['inputerror'][] = 'email';
+				$data['error_string'][] = 'Wajib mengisi Email';
+				$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('rekening') == '') {
+				$data['inputerror'][] = 'rekening';
+				$data['error_string'][] = 'Wajib mengisi Rekening';
+				$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('bank') == '') {
+				$data['inputerror'][] = 'bank';
+				$data['error_string'][] = 'Wajib mengisi Bank';
+				$data['status'] = FALSE;
+		}
+
+		return $data;
+	}
+
+	private function seoUrl($string) {
+	    //Lower case everything
+	    $string = strtolower($string);
+	    //Make alphanumeric (removes all other characters)
+	    $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+	    //Clean up multiple dashes or whitespaces
+	    $string = preg_replace("/[\s-]+/", " ", $string);
+	    //Convert whitespaces and underscore to dash
+	    $string = preg_replace("/[\s_]/", "-", $string);
+	    return $string;
+	}
 
 }

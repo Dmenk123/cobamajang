@@ -6,7 +6,7 @@
             <div class="row">
                 <!-- Image Starts -->
                 <div class="col-md-12 col-lg-12 col-xl-4">
-                    <img class="img-fluid projectmanagerpicture" src="<?php echo base_url(); ?>files/img/user_img/<?php if($profile->gambar){echo $profile->gambar; }else{ echo 'user_default.png'; } ?>" style="border-radius: 20%; height: 60%; width: 70%;">
+                    <img class="img-fluid projectmanagerpicture" src="<?php if($profile->gambar){echo base_url().$profile->gambar; }else{ echo base_url('files/img/user_img/').'user_default.png'; } ?>" style="border-radius: 20%; height: 60%; width: 70%;">
                 </div>
                 <!-- Image Ends -->
                 <!-- Details Starts -->
