@@ -201,7 +201,7 @@ INSERT INTO `t_harga` VALUES (3, 2200000.00, 660000.00, 30, 4400000.00, '2020-12
 -- ----------------------------
 DROP TABLE IF EXISTS `t_klaim_agen`;
 CREATE TABLE `t_klaim_agen`  (
-  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `kode_agen` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_user_verify` int(11) NULL DEFAULT NULL,
   `saldo_sebelum` float(20, 2) NULL DEFAULT NULL COMMENT 'uang yg sudah diklaim ke agen',
@@ -225,7 +225,7 @@ INSERT INTO `t_klaim_agen` VALUES ('c2410183-6a3d-46db-8e0d-54ac88390a4f', 'MEM-
 -- ----------------------------
 DROP TABLE IF EXISTS `t_klaim_verify`;
 CREATE TABLE `t_klaim_verify`  (
-  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_klaim_agen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_user` int(11) NULL DEFAULT NULL,
   `tanggal_verify` datetime(0) NULL DEFAULT NULL,

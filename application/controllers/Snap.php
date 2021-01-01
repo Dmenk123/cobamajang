@@ -5,7 +5,7 @@ class Snap extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $params = array('server_key' => 'Mid-server-8WU3V7CIkpVwElgYuHknU718', 'production' => true);
+        $params = array('server_key' => 'Mid-server--1rsCRxa0PzBq5EYU_8J-NlD', 'production' => false);
 		$this->load->library('midtrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');	
@@ -16,6 +16,7 @@ class Snap extends CI_Controller {
 
     public function index()
     {
+		
 		$harga = $this->m_global->single_row('*',['deleted_at' => null], 't_harga', NULL);
 		
 		$tahun = date('Y');
@@ -49,22 +50,22 @@ class Snap extends CI_Controller {
 		
 		$arr_valid = $this->rule_validasi();
 		
-        if ($arr_valid['status'] == FALSE) {
-			$this->session->set_flashdata('feedback_failed','Gagal menyimpan Data, pastikan telah mengisi semua inputan yang wajib di isi.'); 
-			return redirect('snap').'?type='.$price.'#checkout';
-			echo json_encode(['status' => false]);
-			return;
-			exit;
-		}
-    
+        // if ($arr_valid['status'] == FALSE) {
+		// 	$this->session->set_flashdata('feedback_failed','Gagal menyimpan Data, pastikan telah mengisi semua inputan yang wajib di isi.'); 
+		// 	return redirect('snap').'?type='.$price.'#checkout';
+		// 	echo json_encode(['status' => false]);
+		// 	return;
+		// 	exit;
+		// }
+		$price = 'reg';
 		if($price == 'reg') {
-			$harga = $this->m_global->single_row('*',['id_talent' => 1, 'jenis_harga' => 1, 'deleted_at' => null], 't_harga', NULL);
+			$harga = $this->m_global->single_row('*',['deleted_at' => null], 't_harga', NULL);
 		}else{
 			$harga = $this->m_global->single_row('*',['id_talent' => 1, 'jenis_harga' => 2, 'deleted_at' => null], 't_harga', NULL);
 		}
 		
 		
-		if($harga->is_diskon) {
+		if(isset($harga->is_diskon)) {
 			// cek tanggal
 			$tgl_mulai_diskon = $obj_date->createFromFormat('Y-m-d H:i:s', $harga->tgl_mulai_diskon.' 00:00:00')->format('Y-m-d H:i:s');
 			$tgl_akhir_diskon = $obj_date->createFromFormat('Y-m-d H:i:s', $harga->tgl_akhir_diskon.' 00:00:00')->format('Y-m-d H:i:s');
@@ -94,6 +95,7 @@ class Snap extends CI_Controller {
 			$txt_ket = 'eksklusif';
 		}
 
+		// var_ump($harga_fix); die();
 		// Required
 		$order_id  = rand();
 		$transaction_details = array(
@@ -106,7 +108,7 @@ class Snap extends CI_Controller {
 		  'id' => 'a1',
 		  'price' => $harga_fix,
 		  'quantity' => 1,
-		  'name' => "Kelas ".$txt_ket
+		  'name' => "Kelas Reguler"
 		);
 
 		// Optional
@@ -158,7 +160,7 @@ class Snap extends CI_Controller {
 			'nama'  => $nama_lengkap,
 			'email' => $email,
 			'telp'  => $telp,
-			'keterangan' => $txt_ket,
+			// 'keterangan' => $txt_ket,
 			'harga'     => $harga_fix,
 			'order_id'  => $order_id,
 			'created_at' => $timestamp
@@ -170,12 +172,12 @@ class Snap extends CI_Controller {
         //ser save_card true to enable oneclick or 2click
         //$credit_card['save_card'] = true;
 
-        $time = time();
-        $custom_expiry = array(
-            'start_time' => date("Y-m-d H:i:s O",$time),
-            'unit' => 'minute', 
-            'duration'  => 60
-        );
+		$time = time();
+		$custom_expiry = array(
+			'start_time' => date("Y-m-d H:i:s O",$time),
+			'unit' => 'minute', 
+			'duration'  => 2
+		);
         
         $transaction_data = array(
             'transaction_details'=> $transaction_details,
@@ -453,12 +455,16 @@ class Snap extends CI_Controller {
 	private function get_form_payment($data)
 	{
 		$html = '<div class="divider text-center"><span class="outer-line"></span><span class="outer-line"></span></div>
+		<form id="payment-form" method="post" action="snap/finish">
+			<input type="hidden" name="result_type" id="result-type" value=""></div>
+			<input type="hidden" name="result_data" id="result-data" value=""></div>
+		</form>
 				<br>
 				<form id="form_proses_payment" method="post" enctype="multipart/form-data" class="ps-checkout__form">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!--<div class="alert alert-warning">
-							<strong>Peringatan!</strong> Harap isikan email anda dengan benar & Mohon periksa kembali !
+							<strong>Peringatan!</strong> Harap isikannn email anda dengan benar & Mohon periksa kembali !
 						</div>-->
 							<div class="ps-checkout__billing">
 								<div class="form-group form-group--inline">
@@ -467,7 +473,7 @@ class Snap extends CI_Controller {
 									<input type="hidden" id="id" name="id" value="a1">
 									<input class="form-control" style="" type="hidden" name="address" id="address">
 									<input class="form-control" style="" type="text" name="nama_depan" id="nama_depan">
-									<input type="hidden" name="keterangan" id="keterangan" value="'.$data['type'].'">
+									<input type="hidden" name="keterangan" id="keterangan" value="">
 									<span class="help-block"></span>
 								</div>
 								<div class="form-group form-group--inline">
@@ -821,6 +827,10 @@ class Snap extends CI_Controller {
 			return false;
 		}
 		
+	}
+
+	public function coba(){
+		$this->load->view('checkout_snap2');
 	}
 	
 	
