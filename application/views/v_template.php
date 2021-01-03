@@ -133,6 +133,32 @@
         video {
             max-width: 100%;
         }
+
+            #loader-payment {
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                text-align: center;
+                background: url('https://i.imgur.com/Cn9MC39.gif') 50% 50% no-repeat rgba(0,0,0,0.8);
+                vertical-align: middle;
+            color: #fff;
+            
+            }
+            #loader-payment:before{
+                content: attr(data-wordLoad);
+                color: #fff;
+                position: absolute;
+                top: calc(50% + 150px); /* gif圖片的高度一半 */
+                left: calc(50% - 90px); /* 設定文字寬度的 一半 */
+                    width: 180px;
+                    display: table-cell;
+                    text-align: center;
+                    vertical-align: middle;
+                font-size: 1.5rem;
+            }
     </style>
 </head>
 
@@ -409,43 +435,62 @@
             cache: false,
 
             success: function(data) {
-                //location = data;
-                // if(data.status == false){
-                //     location.reload();
-                //     return;
-                // }
-                console.log('token = '+data);
-                
-                var resultType = document.getElementById('result-type');
-                var resultData = document.getElementById('result-data');
-    
-                function changeResult(type,data){
-                    $("#result-type").val(type);
-                    $("#result-data").val(JSON.stringify(data));
-                    //resultType.innerHTML = type;
-                    //resultData.innerHTML = JSON.stringify(data);
-                }
 
-                snap.pay(data, {
-            
-                    onSuccess: function(result){
-                        changeResult('success', result);
-                        console.log(result.status_message);
-                        console.log(result);
-                        $("#payment-form").submit();
-                    },
-                    onPending: function(result){
-                        changeResult('pending', result);
-                        console.log(result.status_message);
-                        $("#payment-form").submit();
-                    },
-                    onError: function(result){
-                        changeResult('error', result);
-                        console.log(result.status_message);
-                        $("#payment-form").submit();
-                    }
+                
+                     //location = data;
+                    // if(data.status == false){
+                    //     location.reload();
+                    //     return;
+                    // }
+                    console.log('token = '+data);
                     
-                });
+                    var resultType = document.getElementById('result-type');
+                    var resultData = document.getElementById('result-data');
+        
+                    function changeResult(type,data){
+                        $("#result-type").val(type);
+                        $("#result-data").val(JSON.stringify(data));
+                        //resultType.innerHTML = type;
+                        //resultData.innerHTML = JSON.stringify(data);
+                    }
+
+                    snap.pay(data, {
+                
+                        onSuccess: function(result){
+                            changeResult('success', result);
+                            console.log(result.status_message);
+                            console.log(result);
+                            // location.reload();
+                            $("#loader").fadeOut("slow");
+                            setTimeout(function(){
+                                $("#loader-payment").hide();
+                                $("#payment-form").submit();
+                            }, 20000);
+                        },
+                        onPending: function(result){
+                            changeResult('pending', result);
+                            console.log(result.status_message);
+                            // location.reload();
+                            $("#loader").fadeOut("slow");
+                            setTimeout(function(){
+                                $("#loader-payment").hide();
+                                $("#payment-form").submit();
+                            }, 20000);
+                        },
+                        onError: function(result){
+                            changeResult('error', result);
+                            console.log(result.status_message);
+                            // location.reload();
+                            $("#loader").fadeOut("slow");
+                            setTimeout(function(){
+                                $("#loader-payment").hide();
+                                $("#payment-form").submit();
+                            }, 20000);
+                        }
+                        
+                    });
+               
+               
             },
             statusCode: {
                 303: function() {

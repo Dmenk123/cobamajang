@@ -7,6 +7,7 @@ class Snap extends CI_Controller {
         parent::__construct();
         $params = array('server_key' => 'SB-Mid-server-8Qe7WdPLrkQlANXTCWa4qy7x', 'production' => false);
 		$this->load->library('midtrans');
+		$this->load->library('veritrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');	
 		$this->load->model('t_checkout');
@@ -256,6 +257,40 @@ class Snap extends CI_Controller {
 
 	    $return = $this->snapmodel->insert($data);
 		$this->data['finish'] = json_decode($this->input->post('result_data'));
+
+		// update status pembayaran
+		
+		// $order_id = $result->order_id;
+		// $res = ($this->veritrans->status($order_id) );
+
+		// $bank  		= (isset($result->va_numbers[0]->bank))?$result->va_numbers[0]->bank:"";
+		// $va_number 	= (isset($result->va_numbers[0]->va_number))?$result->va_numbers[0]->va_number:"";
+
+		// $data = [
+		// 	'status_code' => $result->status_code,
+		// 	'status_message' => $result->status_message,
+		// 	'transaction_id' => $result->transaction_id,
+		// 	'order_id' => $result->order_id,
+		// 	'gross_amount' => $result->gross_amount,
+		// 	'payment_type' => $result->payment_type,
+		// 	'transaction_time' => $result->transaction_time,
+		// 	'transaction_status' => $result->transaction_status,
+		// 	'bank' => $bank,
+		// 	'va_number' => $va_number,
+		// 	'fraud_status' => $result->fraud_status,
+		// ];
+
+		// $transaksi = $this->m_global->single_row('*', array('order_id'=>$order_id), 'tbl_requesttransaksi');
+		// $i = 0;
+		// if(empty($transaksi)){
+		// 	$this->m_global->store_id($data, 'tbl_requesttransaksi');
+		// 	$i = $i + 1;
+		// }else{
+		// 	$this->m_global->update('tbl_requesttransaksi', $data, array('order_id'=>$order_id));
+		// 	$i = $i + 2;
+		// }
+
+		// update status pembayaran
 		if ($result->transaction_status == 'pending' || $result->transaction_status == 'settlement') {
 			redirect('confirm/confirm_success/'.$result->order_id);
 		}else{
@@ -455,7 +490,7 @@ class Snap extends CI_Controller {
 	private function get_form_payment($data)
 	{
 		$html = '<div class="divider text-center"><span class="outer-line"></span><span class="outer-line"></span></div>
-		<form id="payment-form" method="post" action="snap/finish">
+		<form id="payment-form" method="post" action="finish">
 			<input type="hidden" name="result_type" id="result-type" value=""></div>
 			<input type="hidden" name="result_data" id="result-data" value=""></div>
 		</form>
@@ -895,8 +930,9 @@ class Snap extends CI_Controller {
 
 		
 		// Required
+		$order_id = rand();
 		$transaction_details = array(
-		  'order_id' => rand(),
+		  'order_id' => $order_id,
 		  'gross_amount' => $harga_fix, // no decimal allowed for creditcard
 		);
 
@@ -952,7 +988,21 @@ class Snap extends CI_Controller {
 		  'billing_address'  => $billing_address,
 		  'shipping_address' => $shipping_address
 		);
-
+		
+		//inserting data customer
+		$nama_lengkap = $first_name.' '.$last_name;
+		$kode_agen = $this->m_user->get_kode_agen();
+		$data = array(
+			'nama'  => $nama_lengkap,
+			'email' => $email,
+			'telp'  => $telp,
+			// 'keterangan' => $txt_ket,
+			'harga'     => $harga_fix,
+			'order_id'  => $order_id,
+			'kode_agen' => $kode_agen,
+			'created_at' => $timestamp
+		);
+		$simpan = $this->m_global->store($data, 't_checkout');
 		// Data yang akan dikirim untuk request redirect_url.
         $credit_card['secure'] = true;
         //ser save_card true to enable oneclick or 2click
