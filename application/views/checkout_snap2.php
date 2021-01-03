@@ -3,13 +3,13 @@
   <head>
     <script type="text/javascript"
             src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key=""></script>
+            data-client-key="<CLIENT-KEY>"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   </head>
   <body>
 
     
-    <form id="payment-form" method="post" action="<?=site_url()?>/snap2/finish">
+    <form id="payment-form" method="post" action="<?=site_url()?>snap2/finish">
       <input type="hidden" name="result_type" id="result-type" value=""></div>
       <input type="hidden" name="result_data" id="result-data" value=""></div>
     </form>
@@ -45,7 +45,7 @@
 
       $.ajax({
 				type: 'POST',
-				url: '<?= site_url() ?>snap/detail',
+				url: '<?= site_url() ?>snap2/detail',
         data: {produk: arr},
         cache: false,
 
@@ -99,7 +99,7 @@
 
     $.ajax({
       method : 'POST',
-      url: '<?=site_url()?>snap2/token2',
+      url: '<?=site_url()?>snap/token2',
       data : {id: id, price: price, quantity: quantity, name: name, gross_amount: gross_amount},
       cache: false,
 

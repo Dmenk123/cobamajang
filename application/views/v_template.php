@@ -216,7 +216,9 @@
      <script src="<?= base_url('assets/template/js/custom.js'); ?>"></script>
      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script> -->
      <script src="<?=base_url('assets/template/js/flipdown.js'); ?>"></script>>
-     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-eh23nMd378gQMTP4"></script>
+     <script type="text/javascript"
+            src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="<CLIENT-KEY>"></script>
 
 
 
@@ -395,7 +397,7 @@
 
         $.ajax({
             method : "POST",
-            url: '<?=site_url()?>/snap2/token2',
+            url: '<?=site_url()?>/snap/token2',
             data : {
                     email: email, 
                     first_name: first_name, 
