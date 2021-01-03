@@ -518,15 +518,45 @@ class Snap extends CI_Controller {
 									<span class="help-block"></span>
 								</div>
 								<div class="form-group form-group--inline">
+									<label>Nama User<span></span>
+									</label>
+									<input class="form-control" style="" type="text" name="username" id="username" autocomplete="off">
+									<span class="help-block"></span>
+								</div>
+								<div class="form-group form-group--inline">
 									<label>Email<span></span>
 									</label>
 									<input class="form-control" style="" type="email" name="email" id="email" placeholder="">
 									<span class="help-block"></span>
 								</div>
 								<div class="form-group form-group--inline">
+									<label>Password<span></span>
+									</label>
+									<input class="form-control" style="" type="password" name="password" id="password" autocomplete="off">
+									<span class="help-block"></span>
+								</div>
+								<div class="form-group form-group--inline">
+									<label>Tulis Ulang Password<span></span>
+									</label>
+									<input class="form-control" style="" type="password" name="repassword" id="repassword" autocomplete="off">
+									<span class="help-block"></span>
+								</div>
+								<div class="form-group form-group--inline">
 									<label>No. Telepon<span></span>
 									</label>
 									<input class="form-control numberinput" style="" type="text" name="telp" id="telp">
+									<span class="help-block"></span>
+								</div>
+								<div class="form-group form-group--inline">
+									<label>Nama Bank<span></span>
+									</label>
+									<input class="form-control" style="" type="text" name="bank" id="bank" placeholder="misal: BCA, MANDIRI, dll">
+									<span class="help-block"></span>
+								</div>
+								<div class="form-group form-group--inline">
+									<label>No. Rekening<span></span>
+									</label>
+									<input class="form-control numberinput" style="" type="text" name="norek" id="norek">
 									<span class="help-block"></span>
 								</div>
 								<div class="form-group--inline paypal">
@@ -872,10 +902,13 @@ class Snap extends CI_Controller {
     {
 		$first_name     = $this->input->post('first_name');
 		$last_name   	= $this->input->post('last_name');
+		$username       = $this->input->post('username');
 		$email    		= $this->input->post('email');
 		$price    		= $this->input->post('price');
 		$quantity 		= $this->input->post('quantity');
 		$telp     		= $this->input->post('telp');
+		$password       = $this->input->post('pass');
+		$repassword     = $this->input->post('repass');
 
 		$obj_date = new DateTime();
 		$timestamp = $obj_date->format('Y-m-d H:i:s');
@@ -943,7 +976,7 @@ class Snap extends CI_Controller {
 		  'id' => 'a1',
 		  'price' => $harga_fix,
 		  'quantity' => 1,
-		  'name' => "Apple"
+		  'name' => "Member Affiliete"
 		);
 
 		// Optional
@@ -959,8 +992,8 @@ class Snap extends CI_Controller {
 
 		// Optional
 		$billing_address = array(
-		  'first_name'    => "Andri",
-		  'last_name'     => "Litani",
+		  'first_name'    => $first_name,
+		  'last_name'     => $last_name,
 		  'address'       => "Mangga 20",
 		  'city'          => "Jakarta",
 		  'postal_code'   => "16602",
@@ -981,10 +1014,10 @@ class Snap extends CI_Controller {
 
 		// Optional
 		$customer_details = array(
-		  'first_name'    => "Andri",
-		  'last_name'     => "Litani",
-		  'email'         => "andri@litani.com",
-		  'phone'         => "081122334455",
+		  'first_name'    => $first_name,
+		  'last_name'     => $last_name,
+		  'email'         => $email,
+		  'phone'         => $telp,
 		  'billing_address'  => $billing_address,
 		  'shipping_address' => $shipping_address
 		);

@@ -419,7 +419,12 @@
         var quantity      = 1;
         var first_name    = $("#nama_depan").val();
         var last_name     = $("#nama_belakang").val();
+        var username      = $("#username").val();
         var telp          = $("#telp").val();
+        var pass          = $("#password").val();
+        var repass        = $("#repassword").val();
+        var bank          = $("#bank").val();
+        var norek         = $("#norek").val();
 
         $.ajax({
             method : "POST",
@@ -428,9 +433,14 @@
                     email: email, 
                     first_name: first_name, 
                     last_name: last_name,
+                    username: username,
                     price: price, 
                     quantity: quantity, 
-                    telp: telp
+                    telp: telp,
+                    pass: pass,
+                    repass: repass,
+                    bank: bank,
+                    norek: norek
                     },
             cache: false,
 
