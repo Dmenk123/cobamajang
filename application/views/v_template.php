@@ -159,6 +159,44 @@
                     vertical-align: middle;
                 font-size: 1.5rem;
             }
+
+            #lock-modal {
+  display: none;
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+}
+
+#loading-circle {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.6s ease-in infinite;
+  z-index: 9999;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
     </style>
 </head>
 
@@ -412,6 +450,8 @@
     function aksi_payment(){
         event.preventDefault();
         $(this).attr("disabled", "disabled");
+        const lockModal = $("#lock-modal");
+        const loadingCircle = $("#loading-circle");
     
         var id            = $("#id").val();
         var email         = $("#email").val();
@@ -471,9 +511,11 @@
                             console.log(result.status_message);
                             console.log(result);
                             // location.reload();
-                            $("#loader").fadeOut("slow");
+                            lockModal.css("display", "block");
+                            loadingCircle.css("display", "block");
                             setTimeout(function(){
-                                $("#loader-payment").hide();
+                                lockModal.css("display", "none");
+                                loadingCircle.css("display", "none");
                                 $("#payment-form").submit();
                             }, 20000);
                         },
@@ -481,9 +523,11 @@
                             changeResult('pending', result);
                             console.log(result.status_message);
                             // location.reload();
-                            $("#loader").fadeOut("slow");
+                            lockModal.css("display", "block");
+                            loadingCircle.css("display", "block");
                             setTimeout(function(){
-                                $("#loader-payment").hide();
+                                lockModal.css("display", "none");
+                                loadingCircle.css("display", "none");
                                 $("#payment-form").submit();
                             }, 20000);
                         },
@@ -491,9 +535,11 @@
                             changeResult('error', result);
                             console.log(result.status_message);
                             // location.reload();
-                            $("#loader").fadeOut("slow");
+                            lockModal.css("display", "block");
+                            loadingCircle.css("display", "block");
                             setTimeout(function(){
-                                $("#loader-payment").hide();
+                                lockModal.css("display", "none");
+                                loadingCircle.css("display", "none");
                                 $("#payment-form").submit();
                             }, 20000);
                         }

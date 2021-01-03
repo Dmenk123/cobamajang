@@ -65,7 +65,8 @@
                 </div>
             </div>
         </div>
-        
+        <div id="lock-modal"></div>
+        <div id="loading-circle"></div>
         
 
         <div class="col-12" id="main-form-bayar">
