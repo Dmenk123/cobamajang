@@ -189,9 +189,9 @@ class M_global extends CI_Model
 		$this->db->where('status', '1');
 		$query = $this->db->get();
 		return $query->row();
-    }
-    
-    public function gen_uuid()
+	}
+	
+	public function gen_uuid()
 	{
 		$data = openssl_random_pseudo_bytes(16);
 		assert(strlen($data) == 16);

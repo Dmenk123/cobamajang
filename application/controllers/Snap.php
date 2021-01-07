@@ -388,54 +388,63 @@ class Snap extends CI_Controller {
 									<input class="form-control" style="" type="text" name="fname_trans" id="fname_trans">
 									<span class="help-block"></span>
 								</div>
+								
 								<div class="form-group form-group--inline">
 									<label>Nama Belakang<span></span>
 									</label>
 									<input class="form-control" style="" type="text" name="lname_trans" id="lname_trans" autocomplete="off">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Nama User<span></span>
 									</label>
 									<input class="form-control" style="" type="text" name="username" id="username" autocomplete="off">
 									<span class="help-block"></span>
-								</div>
+								</div>-->
+								
 								<div class="form-group form-group--inline">
 									<label>Email<span></span>
 									</label>
 									<input class="form-control" style="" type="email" name="email_trans" id="email_trans" placeholder="">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Password<span></span>
 									</label>
 									<input class="form-control" style="" type="password" name="password" id="password" autocomplete="off">
 									<span class="help-block"></span>
-								</div>
-								<div class="form-group form-group--inline">
+								</div>-->
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Tulis Ulang Password<span></span>
 									</label>
 									<input class="form-control" style="" type="password" name="repassword" id="repassword" autocomplete="off">
 									<span class="help-block"></span>
-								</div>
+								</div>-->
+								
 								<div class="form-group form-group--inline">
 									<label>No. Telepon<span></span>
 									</label>
 									<input class="form-control numberinput" style="" type="text" name="telp_trans" id="telp_trans">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Nama Bank<span></span>
 									</label>
 									<input class="form-control" style="" type="text" name="bank" id="bank" placeholder="misal: BCA, MANDIRI, dll">
 									<span class="help-block"></span>
-								</div>
-								<div class="form-group form-group--inline">
+								</div>-->
+								
+								<!--<div class="form-group form-group--inline">
 									<label>No. Rekening<span></span>
 									</label>
 									<input class="form-control numberinput" style="" type="text" name="norek" id="norek">
 									<span class="help-block"></span>
-								</div>
+								</div>-->
+								
 								<div class="form-group form-group--inline">
 									<label>Upload Bukti Transfer</label>
 									<div></div>
@@ -451,9 +460,11 @@ class Snap extends CI_Controller {
 									<span class="help-block"></span>
 								</div>
 								<div class="form-group">
-									<label for="Wajib Diisi"><strong>Keterangan : (*) Wajib diisi.</strong></label>
+									<label for="Wajib Diisi"><strong>Keterangan.</strong></label>
 									<br>
-									<label for="">Mohon memasukkan nomor rekening anda dengan valid. Komisi anda akan kami transfer pada rekening yg anda daftarkan</label>
+									<!--<label for="">Mohon memasukkan nomor rekening anda dengan valid. Komisi anda akan kami transfer pada rekening yg anda daftarkan</label>-->
+									<p style="font-size:18px; font-family:arial; color:red; line-height:24px;">Setelah anda upload bukti transfer, admin akan mengecek. Setelah pembayarannya masuk, admin akan kiirimkan Username & Password ke email anda.</p>
+										<p>Sehingga anda nantinya <strong>bisa masuk ke Profile Brand Ambassador kami untuk mendapatkan link website Produk online yang sudah teridentifikasi dengan id anda.</strong> Sehingga bisa melihat penghasilan anda dari orang yang sudah membeli Produk online kami dari link anda.</p>
 								</div>
 							</div>
 						</div>
@@ -464,11 +475,11 @@ class Snap extends CI_Controller {
 									<div class="form-group cheque">
 										<div class="">
 											<p>Transfer <strong>Rp '.number_format($data['harga']->nilai_harga,0,',','.').'</strong> ke Nomor Rekening di bawah Ini.</p>
-											<p>Rekening BCA : 464-177-2458 <br> a.n Cipto Junaidi</p>
+											<p>Rekening BCA : 0885-181-223 <br> a.n Cipto Junaidi</p>
 										</div>
 									</div>
 									<div class="ps-shipping">
-										<p style="font-size:18px; font-family:arial; color:blue; line-height:24px;"><strong>Setelah transfer, lalu fotokan bukti transfer untuk memulai Majang Link Produk kami.</strong></p>
+										<p style="font-size:18px; font-family:arial; color:blue; line-height:24px;"><strong>Setelah transfer, lalu fotokan bukti transfer untuk memulai Majang Link Produk Onlinekami.</strong></p>
 										<p>Upload bukti transfer dg <strong>klik kolom upload di atas.</strong> Setelah  upload, lalu klik tombol Proses Pembayaran</p>
 										<div class="form-group paypal">
 											<button type="button" class="btn btn-md btn-success" id="pay-button" onclick="aksi_transfer()">Proses Data Pembayaran<i class="ps-icon-next"></button>
@@ -517,48 +528,56 @@ class Snap extends CI_Controller {
 									<input class="form-control" style="" type="text" name="nama_belakang" id="nama_belakang">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
-									<label>Nama User<span></span>
-									</label>
-									<input class="form-control" style="" type="text" name="username" id="username" autocomplete="off">
-									<span class="help-block"></span>
-								</div>
+							
 								<div class="form-group form-group--inline">
 									<label>Email<span></span>
 									</label>
 									<input class="form-control" style="" type="email" name="email" id="email" placeholder="">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
+								
+								<!--<div class="form-group form-group--inline">
+									<label>Username<span></span>
+									</label>
+									<input class="form-control" style="" type="text" name="username" id="username" autocomplete="off">
+									<span class="help-block"></span>
+								</div>-->
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Password<span></span>
 									</label>
 									<input class="form-control" style="" type="password" name="password" id="password" autocomplete="off">
 									<span class="help-block"></span>
-								</div>
-								<div class="form-group form-group--inline">
+								</div>-->
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Tulis Ulang Password<span></span>
 									</label>
 									<input class="form-control" style="" type="password" name="repassword" id="repassword" autocomplete="off">
 									<span class="help-block"></span>
-								</div>
+								</div>-->
+								
 								<div class="form-group form-group--inline">
 									<label>No. Telepon<span></span>
 									</label>
 									<input class="form-control numberinput" style="" type="text" name="telp" id="telp">
 									<span class="help-block"></span>
 								</div>
-								<div class="form-group form-group--inline">
+								
+								<!--<div class="form-group form-group--inline">
 									<label>Nama Bank<span></span>
 									</label>
 									<input class="form-control" style="" type="text" name="bank" id="bank" placeholder="misal: BCA, MANDIRI, dll">
 									<span class="help-block"></span>
-								</div>
-								<div class="form-group form-group--inline">
+								</div>-->
+								
+								<!--<div class="form-group form-group--inline">
 									<label>No. Rekening<span></span>
 									</label>
 									<input class="form-control numberinput" style="" type="text" name="norek" id="norek">
 									<span class="help-block"></span>
-								</div>
+								</div>-->
+								
 								<div class="form-group--inline paypal">
 									<button type="button" class="btn btn-md btn-success" id="pay-button" onclick="aksi_payment()">Bayar Sekarang<i class="ps-icon-next"></button>
 								</div>
@@ -586,17 +605,17 @@ class Snap extends CI_Controller {
 		}
 
 		$nama = trim($this->input->post('fname_trans').' '.$this->input->post('lname_trans'));
-		$username = trim($this->input->post('username'));
-		$bank = trim(strtoupper(strtolower($this->input->post('bank'))));
-		$rekening = trim($this->input->post('norek'));
+		// $username = trim($this->input->post('username'));
+		// $bank = trim(strtoupper(strtolower($this->input->post('bank'))));
+		// $rekening = trim($this->input->post('norek'));
 		$email = trim($this->input->post('email_trans'));
 		$telp = trim($this->input->post('telp_trans'));
 		$alamat = trim($this->input->post('address_trans'));
 		
-		$password = trim($this->input->post('password'));
-		$repassword = trim($this->input->post('repassword'));
+		// $password = trim($this->input->post('password'));
+		// $repassword = trim($this->input->post('repassword'));
 
-		if ($password != $repassword) {
+		/*if ($password != $repassword) {
 			$arr_error['inputerror'][] = 'password';
             $arr_error['error_string'][] = 'Password Tidak Sama';
 			$arr_error['status'] = FALSE;
@@ -607,9 +626,11 @@ class Snap extends CI_Controller {
 			
 			echo json_encode($arr_error);
 			return;
-		}
-
-		$hash_password = $this->enkripsi->enc_dec('encrypt',$password);
+		}*/
+        
+        $username = trim(strtolower(str_ireplace(" ", "_", $this->input->post('fname_trans'))).'_'.strtolower(str_ireplace(" ", "_", $this->input->post('lname_trans'))));
+        $password = '123456';
+		$hash_password = $this->enkripsi->enc_dec('encrypt', $password);
 		
 		$id = $this->t_checkout->get_max_id();
 		$namafileseo = $this->seoUrl($nama.' '.time());
@@ -694,14 +715,14 @@ class Snap extends CI_Controller {
 				'no_telp' => $telp,
 				'created_at' => $timestamp,
 				'email' => $email,
-				'bank' => $bank,
-				'rekening' => $rekening,
+				//'bank' => $bank,
+				//'rekening' => $rekening,
 				'created_at' => $timestamp
 			);
 
 			$insert_user = $this->m_user->save($input);
 
-			if($insert_user) {
+			/*if($insert_user) {
 				//login
 				$user_exist = $this->m_global->single_row('*',['username' => $username,'password' => $hash_password, 'deleted_at' => null ], 'm_user', NULL);
 
@@ -717,7 +738,7 @@ class Snap extends CI_Controller {
 						]
 					);
 				}
-			}
+			}*/
 
 		}
 		
@@ -815,35 +836,35 @@ class Snap extends CI_Controller {
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('username') == '') {
-			$data['inputerror'][] = 'username';
-            $data['error_string'][] = 'Wajib Mengisi Nama User';
-            $data['status'] = FALSE;
-		}
+// 		if ($this->input->post('username') == '') {
+// 			$data['inputerror'][] = 'username';
+//             $data['error_string'][] = 'Wajib Mengisi Nama User';
+//             $data['status'] = FALSE;
+// 		}
 
-		if ($this->input->post('bank') == '') {
-			$data['inputerror'][] = 'bank';
-            $data['error_string'][] = 'Wajib Mengisi Bank';
-            $data['status'] = FALSE;
-		}
+// 		if ($this->input->post('bank') == '') {
+// 			$data['inputerror'][] = 'bank';
+//             $data['error_string'][] = 'Wajib Mengisi Bank';
+//             $data['status'] = FALSE;
+// 		}
 
-		if ($this->input->post('norek') == '') {
-			$data['inputerror'][] = 'norek';
-            $data['error_string'][] = 'Wajib Mengisi Nomor rekening';
-            $data['status'] = FALSE;
-		}
+// 		if ($this->input->post('norek') == '') {
+// 			$data['inputerror'][] = 'norek';
+//             $data['error_string'][] = 'Wajib Mengisi Nomor rekening';
+//             $data['status'] = FALSE;
+// 		}
 
-		if ($this->input->post('password') == '') {
-			$data['inputerror'][] = 'password';
-            $data['error_string'][] = 'Wajib Mengisi Password';
-            $data['status'] = FALSE;
-		}
+// 		if ($this->input->post('password') == '') {
+// 			$data['inputerror'][] = 'password';
+//             $data['error_string'][] = 'Wajib Mengisi Password';
+//             $data['status'] = FALSE;
+// 		}
 
-		if ($this->input->post('repassword') == '') {
-			$data['inputerror'][] = 'repassword';
-            $data['error_string'][] = 'Wajib Mengisi Password Ulang';
-            $data['status'] = FALSE;
-		}
+// 		if ($this->input->post('repassword') == '') {
+// 			$data['inputerror'][] = 'repassword';
+//             $data['error_string'][] = 'Wajib Mengisi Password Ulang';
+//             $data['status'] = FALSE;
+// 		}
 		
 		
         return $data;
@@ -902,13 +923,18 @@ class Snap extends CI_Controller {
     {
 		$first_name     = $this->input->post('first_name');
 		$last_name   	= $this->input->post('last_name');
-		$username       = $this->input->post('username');
+// 		$username       = $this->input->post('username');
 		$email    		= $this->input->post('email');
 		$price    		= $this->input->post('price');
 		$quantity 		= $this->input->post('quantity');
 		$telp     		= $this->input->post('telp');
-		$password       = $this->input->post('pass');
-		$repassword     = $this->input->post('repass');
+// 		$password       = $this->input->post('pass');
+// 		$bank           = $this->input->post('bank');
+// 		$norek           = $this->input->post('norek');
+        $username       = $first_name.' '.$last_name;
+        $password       = '123456';
+// 		$repassword     = $this->input->post('repass');
+		$hash_password = $this->enkripsi->enc_dec('encrypt',$password);
 
 		$obj_date = new DateTime();
 		$timestamp = $obj_date->format('Y-m-d H:i:s');
@@ -976,7 +1002,7 @@ class Snap extends CI_Controller {
 		  'id' => 'a1',
 		  'price' => $harga_fix,
 		  'quantity' => 1,
-		  'name' => "Member Affiliete"
+		  'name' => "Workshop Online"
 		);
 
 		// Optional
@@ -1005,9 +1031,6 @@ class Snap extends CI_Controller {
 		$shipping_address = array(
 		  'first_name'    => "Obet",
 		  'last_name'     => "Supriadi",
-		  'address'       => "Manggis 90",
-		  'city'          => "Jakarta",
-		  'postal_code'   => "16601",
 		  'phone'         => "08113366345",
 		  'country_code'  => 'IDN'
 		);
@@ -1036,6 +1059,42 @@ class Snap extends CI_Controller {
 			'created_at' => $timestamp
 		);
 		$simpan = $this->m_global->store($data, 't_checkout');
+		
+		$input = array(
+			'id_role' => 3, // role agen
+			'username' => $username,
+			'password' => $hash_password,
+			'status' => '1',
+			'kode_user' => $this->m_user->get_kode_user(),
+			'kode_agen' => $kode_agen,
+			'nama_lengkap' => $nama_lengkap,
+			'no_telp' => $telp,
+			'created_at' => $timestamp,
+			'email' => $email,
+// 			'bank' => $bank,
+// 			'rekening' => $norek,
+			'created_at' => $timestamp
+		);
+
+		$insert_user = $this->m_user->save($input);
+
+// 		if($insert_user) {
+// 			//login
+// 			$user_exist = $this->m_global->single_row('*',['username' => $username,'password' => $hash_password, 'deleted_at' => null ], 'm_user', NULL);
+
+// 			if($user_exist){
+// 				$this->session->set_userdata(
+// 					[
+// 						'username' => $user_exist->username,
+// 						'id_user' => $user_exist->id,
+// 						'last_login' => $user_exist->last_login,
+// 						'id_role' => $user_exist->id_role,
+// 						'logged_in' => true,
+// 						'is_agen' => true
+// 					]
+// 				);
+// 			}
+// 		}
 		// Data yang akan dikirim untuk request redirect_url.
         $credit_card['secure'] = true;
         //ser save_card true to enable oneclick or 2click

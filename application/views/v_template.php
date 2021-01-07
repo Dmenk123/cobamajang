@@ -6,16 +6,16 @@
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="The Wonders - Menaikkan Omset Anda 20X lipat dengan Strategi Algoritma di Instagram.">
-    <meta name="keywords" content="The-Wonders-Menaikkan-Omset-Anda-20X-lipat-dengan-Strategi-Algoritma-di-Instagram.">
-    <meta name="description" content="Wonders - Ivy The Wonders">
-    <meta property="og:site_name" content="The Wonders">
-    <meta property="og:title" content="The Wonders - Menaikkan Omset Anda 20X lipat dg Strategi Algoritma di Instagram."/>
-    <meta property="og:description" content="The Wonders - Ivy The Wonders." />
+    <meta name="author" content="Brand Ambassador - Hasilkan Ratusan Juta per Bulan.">
+    <meta name="keywords" content="Brand-Ambassador-Hasilkan-Ratusan-Juta-per-Bulan.">
+    <meta name="description" content="Brand Ambassador - Belajar Menjadi Teladan">
+    <meta property="og:site_name" content="Brand Ambassador">
+    <meta property="og:title" content="Brand Ambassador - Hasilkan Ratusan Juta per Bulan."/>
+    <meta property="og:description" content="Brand Ambassador - Belajar Menjadi Teladan." />
     <meta property="og:image" itemprop="image" content="<?= base_url('assets/images/meta/meta-thumb.jpeg'); ?>"/> 
     <meta property="og:type" content="website" />
 
-    <title>The Wonders</title>
+    <title>Belajar Menjadi Teladan</title>
 
 	<!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -133,34 +133,34 @@
         video {
             max-width: 100%;
         }
-
-            #loader-payment {
-                position: fixed;
-                left: 0px;
-                top: 0px;
-                width: 100%;
-                height: 100%;
-                z-index: 9999;
-                text-align: center;
-                background: url('https://i.imgur.com/Cn9MC39.gif') 50% 50% no-repeat rgba(0,0,0,0.8);
-                vertical-align: middle;
+        
+         #loader-payment {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            text-align: center;
+            background: url('https://i.imgur.com/Cn9MC39.gif') 50% 50% no-repeat rgba(0,0,0,0.8);
+            vertical-align: middle;
+        color: #fff;
+        
+        }
+        #loader-payment:before{
+            content: attr(data-wordLoad);
             color: #fff;
-            
-            }
-            #loader-payment:before{
-                content: attr(data-wordLoad);
-                color: #fff;
-                position: absolute;
-                top: calc(50% + 150px); /* gif圖片的高度一半 */
-                left: calc(50% - 90px); /* 設定文字寬度的 一半 */
-                    width: 180px;
-                    display: table-cell;
-                    text-align: center;
-                    vertical-align: middle;
-                font-size: 1.5rem;
-            }
-
-            #lock-modal {
+            position: absolute;
+            top: calc(50% + 150px); /* gif圖片的高度一半 */
+            left: calc(50% - 90px); /* 設定文字寬度的 一半 */
+                width: 180px;
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+            font-size: 1.5rem;
+        }
+        
+         #lock-modal {
   display: none;
   background-color: black;
   opacity: 0.6;
@@ -198,13 +198,42 @@
   }
 }
     </style>
+    
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+ fbq('init', '1618433944985320'); 
+fbq('track', 'PageView');
+fbq('track', 'AddPaymentInfo');
+fbq('track', 'AddToCart');
+fbq('track', 'CompleteRegistration');
+fbq('track', 'Contact');
+fbq('track', 'Search');
+fbq('track', 'ViewContent');
+fbq('track', 'InitiateCheckout');
+fbq('track', 'Lead');
+</script>
+<noscript>
+ <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=1618433944985320&ev=PageView
+&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+    
 </head>
 
 <body>
 	<!-- Preloader Starts -->
     <div class="preloader" id="preloader">
         <!--<div class="logopreloader">-->
-        <!--    <img src="<?= base_url('assets/images/saras.png'); ?>" alt="logo-white">-->
+        <!--    <img src="<?= base_url('assets/images/aily.png'); ?>" alt="logo-white">-->
         <!--</div>-->
         <div class="loader" id="loader"></div>
 	</div>
@@ -238,7 +267,15 @@
 		
 <!-- _________________________________________________________ -->
     <!-- *** FOOTER *** -->
-    <?php $this->load->view('v_footer'); ?>
+    <?php 
+    if($this->uri->segment(2) == 'rincian_komisi'){
+        $this->load->view('v_footer2'); 
+    }else if($this->uri->segment(2) == 'edit_profil'){
+        $this->load->view('v_footer2');
+    }else{
+        $this->load->view('v_footer');
+    }
+    ?>
     <!-- /#footer -->
     <!-- *** FOOTER END *** -->
 
@@ -279,10 +316,11 @@
      <!-- Main JS Initialization File -->
      <script src="<?= base_url('assets/template/js/custom.js'); ?>"></script>
      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script> -->
-     <script src="<?=base_url('assets/template/js/flipdown.js'); ?>"></script>>
+     <script src="<?=base_url('assets/template/js/flipdown.js'); ?>"></script>
      <script type="text/javascript"
             src="https://app.sandbox.midtrans.com/snap/snap.js"
             data-client-key="<CLIENT-KEY>"></script>
+    <!--<span id="siteseal"><script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=jKmLEIlC4jCcTP0a0U1AUF5mKEIcf9imsrfHl8jniMX3ngdhbOIFzg8SBkFj"></script></span>-->
 
 
 
@@ -447,7 +485,7 @@
         }
     }
   
-    function aksi_payment(){
+        function aksi_payment(){
         event.preventDefault();
         $(this).attr("disabled", "disabled");
         const lockModal = $("#lock-modal");
@@ -628,7 +666,7 @@
 								location.reload(true);
 							});
 						} else {
-							swal("Gagal", 'Gagal Menarik Komisi, Coba Lagi Nanti..', "error").then(function() {
+							swal("Gagal", data.pesan, "error").then(function() {
 								location.reload(true);
 							});
 						}

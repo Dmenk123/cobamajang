@@ -56,17 +56,19 @@
          <div class="row">
             <div class="col-sm-12 col-md-6 col-xs-12">
                 <div class="latest-post">
-                    <a class="img-thumb tombol_method_bayar" href="transfer"><img style="max-width: 80%;" src="<?= base_url('assets/images/manual.png')?>" alt="img" width="460" height="300"></a>
+                    <a class="img-thumb tombol_method_bayar" href="transfer"><img style="max-width: 80%;" src="<?= base_url('assets/images/transfer1a.png')?>" alt="img" width="460" height="250"></a>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-xs-12">
                 <div class="latest-post">
-                    <a class="img-thumb tombol_method_bayar" href="payment"><img style="max-width: 80%;" src="<?= base_url('assets/images/otomatis.png')?>" alt="img" width="460" height="300"></a>
+                    <a class="img-thumb tombol_method_bayar" href="payment"><img style="max-width: 80%;" src="<?= base_url('assets/images/transfer2a.png')?>" alt="img" width="460" height="250"></a>
                 </div>
             </div>
         </div>
-        <div id="lock-modal"></div>
+        
+         <div id="lock-modal"></div>
         <div id="loading-circle"></div>
+        
         
 
         <div class="col-12" id="main-form-bayar">

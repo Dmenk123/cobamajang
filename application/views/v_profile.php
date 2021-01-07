@@ -35,7 +35,7 @@
                     </p>
                 </div>
                 <div class="col-md-12">
-                    <?php $link = base_url('profile/edit_profil/'); ?>
+                    <?php $link = base_url('profile/edit_profil'); ?>
                     <a class="btn btn-sm btn-primary" href="<?php echo $link; ?>" title="Edit"> Edit Profil</a>
                 </div>
             </div>

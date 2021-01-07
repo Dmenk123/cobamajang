@@ -22,7 +22,7 @@
             <!-- Main Heading Starts -->
             <div class="text-center top-text">
                 <h1><span>Login</span> Form</h1>
-                <h4>Silahkan Login, Untuk Masuk ke Member Area</h4>
+                <h4>Silakan Masukkan Username dan Password anda yang sudah kami kirimkan melalui email.</h4>
             </div>
             <!-- Main Heading Ends -->
             <div class="form-container">
@@ -42,7 +42,7 @@
                         <!-- Email Name Field Starts -->
                         <div class="col-md-12 form-group custom-form-group">
                             <span class="input custom-input">
-                                <input placeholder="" class="input-field custom-input-field" id="password" name="password" type="password" required="" value="">
+                                <input placeholder="Silahkan Masukkan Password Anda" class="input-field custom-input-field" id="password" name="password" type="password" required="" value="">
                                 <label class="input-label custom-input-label">
                                     <i class="fa fa-envelope icon icon-field"></i>
                                 </label>

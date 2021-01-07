@@ -28,9 +28,7 @@ class Snap2 extends CI_Controller
 		header('Access-Control-Allow-Methods: PUT, GET, POST');
 		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 
-		// $params = array('server_key' => $this->db->get_where('tbl_settings', array('type' => 'midtrans_key'))->row()->description, 'production' => false);
-		// $params = array('server_key' => 'SB-Mid-server-sZaLLb9rc5_mfPasoa9Hy96d', 'production' => false);
-		$params = array('server_key' => 'SB-Mid-server-8Qe7WdPLrkQlANXTCWa4qy7x', 'production' => false);
+		$params = array('server_key' => 'SB-Mid-server-sZaLLb9rc5_mfPasoa9Hy96d', 'production' => false);
 		$this->load->library('midtrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');
@@ -39,7 +37,7 @@ class Snap2 extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('checkout_snap');
+		$this->load->view('checkout_snap2');
 	}
 
 	function test() {

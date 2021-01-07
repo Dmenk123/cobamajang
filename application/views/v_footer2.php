@@ -1,5 +1,5 @@
 <!-- Footer Section Starts -->
-<footer class="footer text-center" style="background-image: url('assets/images/foot1.jpg');background-repeat: no-repeat;
+<footer class="footer text-center" style="background-image: url('../assets/images/foot1.jpg');background-repeat: no-repeat;
   background-size: 1350px 550px;">
     <!-- Container Starts -->
     <div class="container">

@@ -285,7 +285,8 @@ class Profile extends CI_Controller {
 
 			if ((int)$q->total_laba == 0) {
 				echo json_encode([
-					'status' => FALSE
+					'status' => FALSE,
+					'pesan' => 'Tidak ada komisi yang bisa ditarik...'
 				]);
 				return;
 			}
@@ -319,13 +320,16 @@ class Profile extends CI_Controller {
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				$status = FALSE;
+				$pesan = 'Terjadi Kesalahan';
 			} else {
 				$this->db->trans_commit();			
 				$status = TRUE;
+				$pesan = 'Sukses Klaim Komisi';
 			}
 
 			echo json_encode([
 				'status' => $status,
+				'pesan' => $pesan,
 				'kode_klaim' => $kode_klaim
 			]);
 		}

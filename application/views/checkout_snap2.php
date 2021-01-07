@@ -9,7 +9,7 @@
   <body>
 
     
-    <form id="payment-form" method="post" action="<?=site_url()?>snap2/finish">
+    <form id="payment-form" method="post" action="<?=site_url()?>/snap/finish">
       <input type="hidden" name="result_type" id="result-type" value=""></div>
       <input type="hidden" name="result_data" id="result-data" value=""></div>
     </form>
@@ -45,7 +45,7 @@
 
       $.ajax({
 				type: 'POST',
-				url: '<?= site_url() ?>snap2/detail',
+				url: '<?= site_url() ?>snap/detail',
         data: {produk: arr},
         cache: false,
 
@@ -99,7 +99,7 @@
 
     $.ajax({
       method : 'POST',
-      url: '<?=site_url()?>snap/token2',
+      url: '<?=site_url()?>snap/token',
       data : {id: id, price: price, quantity: quantity, name: name, gross_amount: gross_amount},
       cache: false,
 
