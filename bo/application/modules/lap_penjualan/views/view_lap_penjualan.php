@@ -46,6 +46,10 @@
             <div>
               <button type="button" class="btn btn-brand" onclick="filter_tabel()">Cari</button>
             </div>
+            <div>&nbsp;</div>
+            <div>
+              <button type="button" class="btn btn-brand btn-success" onclick="ekspor_excel()">Download Excel</button>
+            </div>
           </div>
         </div>
         <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>

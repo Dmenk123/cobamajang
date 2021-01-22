@@ -14,6 +14,7 @@ class Lap_penjualan extends CI_Controller {
 		$this->load->model('tbl_requesttransaksi');
 		$this->load->model('m_global');
 		$this->load->model('master_user/m_user');
+		// $this->load->library('Excel');
 	}
 
 	public function index()
@@ -308,5 +309,90 @@ class Lap_penjualan extends CI_Controller {
 	    //Convert whitespaces and underscore to dash
 	    $string = preg_replace("/[\s_]/", "-", $string);
 	    return $string;
+	}
+
+	public function export_excel()
+	{
+		$tgl_awal = $this->input->get('tgl_awal');
+		$tgl_akhir = $this->input->get('tgl_akhir');
+		$obj_date = new DateTime();
+		$timestamp = $obj_date->format('Y-m-d H:i:s');
+		$tgl_awal_fix = $obj_date->createFromFormat('d/m/Y', $tgl_awal)->format('Y-m-d');
+		$tgl_akhir_fix = $obj_date->createFromFormat('d/m/Y', $tgl_akhir)->format('Y-m-d');
+		$data = $this->t_checkout->get_data_laporan($tgl_awal_fix, $tgl_akhir_fix);
+				
+		if($data) {
+			$counter = count($data)+1;
+		}else{
+			$counter = 1;
+		}
+
+		$spreadsheet = $this->excel->spreadsheet_obj();
+		$writer = $this->excel->xlsx_obj($spreadsheet);
+		$number_format_obj = $this->excel->number_format_obj();
+		
+		$spreadsheet
+			->getActiveSheet()
+			->getStyle('A1:AA'.$counter)
+			->getNumberFormat()
+			//format text masih ada bug di nip. jadi kacau
+			//->setFormatCode($number_format_obj::FORMAT_TEXT);
+			// solusi pake format custom
+			->setFormatCode('#');
+		
+		$sheet = $spreadsheet->getActiveSheet();
+
+		$sheet
+			->setCellValue('A1', 'Tanggal')
+			->setCellValue('B1', 'Email')
+			->setCellValue('C1', 'Kelas')
+			->setCellValue('D1', 'Pendapatan')
+			->setCellValue('E1', 'Keterangan')
+			->setCellValue('F1', 'Saldo Akhir');
+		
+		$sheet
+			->setCellValue("A2", $tgl_awal)
+			->setCellValue("B2", '-')
+			->setCellValue("C2", '-')
+			->setCellValue("D2", '-')
+			->setCellValue("E2", 'Saldo Awal')
+			->setCellValue("F2", $this->t_checkout->get_saldo_awal_lap($tgl_awal.' 00:00:00'));
+
+		$startRow = 3;
+		$endRow = $startRow;
+		$saldo_akhir = 0;
+		$row = $startRow;
+		if($data){
+			foreach ($data as $key => $val) {
+				$saldo_akhir = $saldo_akhir + (float)$val->harga;
+				$sheet
+					->setCellValue("A{$row}", DateTime::createFromFormat('Y-m-d H:i:s', $val->created_at)->format('d/m/Y'))
+					->setCellValue("B{$row}", $val->email)
+					->setCellValue("C{$row}", $val->keterangan)
+					->setCellValue("D{$row}", "Rp " . number_format($val->harga,0,',','.'))
+					->setCellValue("E{$row}", 'Penerimaan Dari '.$val->nama)
+					->setCellValue("F{$row}", "Rp " . number_format($saldo_akhir,0,',','.'));
+				$row++;
+			}
+
+			$endRow = $row;
+		}
+
+		$sheet
+			->setCellValue("A{$endRow}", $tgl_akhir)
+			->setCellValue("B{$endRow}", '-')
+			->setCellValue("C{$endRow}", '-')
+			->setCellValue("D{$endRow}", '-')
+			->setCellValue("E{$endRow}", 'Saldo Akhir')
+			->setCellValue("F{$endRow}", "Rp " . number_format($saldo_akhir,0,',','.'));
+		
+		$filename = 'data-laporan_'.$tgl_awal_fix.'_'.$tgl_akhir_fix.'_'.time();
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+
+		$writer->save('php://output');
+		
 	}
 }

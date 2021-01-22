@@ -269,6 +269,14 @@ function import_excel(){
 	$('#modal_import_title').text('Import data user'); 
 }
 
+function ekspor_excel(){
+    let tgl_awal = $('#tgl_filter_mulai').val();
+    let tgl_akhir = $('#tgl_filter_akhir').val();
+    // redirect
+    window.open(base_url+'lap_penjualan/export_excel?tgl_awal='+tgl_awal+'&tgl_akhir='+tgl_akhir, '_blank');
+
+}
+
 function import_data_excel(){
     var form = $('#form_import_excel')[0];
     var data = new FormData(form);
